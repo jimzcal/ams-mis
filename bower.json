@@ -1,0 +1,29 @@
+{
+  "name": "ppei",
+  "homepage": "https://github.com/jimzcal/ams",
+  "authors": [
+    "ram-29 <ram.delatina.29@gmail.com>"
+  ],
+  "description": "AMS Web Application on Yii2 Framework",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "popper.js": "^1.12.5",
+    "jquery": "3.2.1",
+    "components-font-awesome": "^4.7.0",
+    "moment": "^2.19.1",
+    "underscore": "^1.8.3",
+    "clndr": "^1.4.7",
+    "hover": "^2.1.1",
+    "moment-timezone": "^0.5.14"
+  }
+}
