@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use backend\models\Ors;
 
 /**
  * This is the model class for table "project".
@@ -33,11 +34,21 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['region', 'sub_office', 'title', 'implementing_agency', 'focal_person', 'ors_no', 'status'], 'required'],
-            [['date'], 'safe'],
+            [['region', 'sub_office', 'title', 'implementing_agency', 'focal_person', 'ors_no'], 'required'],
+            [['date', 'ors_no'], 'safe'],
             [['region', 'sub_office', 'focal_person', 'status'], 'string', 'max' => 100],
-            [['title', 'implementing_agency', 'ors_no'], 'string', 'max' => 200],
+            [['title', 'implementing_agency'], 'string', 'max' => 200],
         ];
+    }
+
+    public function getOrs($ors_no, $region)
+    {
+        $data = Ors::find()->where(['ors_no' => $ors_no])
+                    ->andWhere(['region' => $region])
+                    ->groupBy(['rc', 'mfo_pap', 'object_code'])
+                    ->one();
+
+        return $data;
     }
 
     /**
@@ -50,10 +61,10 @@ class Project extends \yii\db\ActiveRecord
             'region' => 'Region',
             'sub_office' => 'Sub Office',
             'date' => 'Date',
-            'title' => 'Title',
+            'title' => 'Project Title',
             'implementing_agency' => 'Implementing Agency',
             'focal_person' => 'Focal Person',
-            'ors_no' => 'Ors No',
+            'ors_no' => 'ORS No',
             'status' => 'Status',
         ];
     }

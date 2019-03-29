@@ -45,7 +45,7 @@ AppAsset::register($this);
                 <?= Html::a(Html::img('@web/images/user.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'User Account']), ["/site/index"]) ?>
                 <?= Html::a(Html::img('@web/images/citizen_charter.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Citizens Charter']), ["/images/index"]) ?>
                 <?= Html::a(Html::img('@web/images/dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Transaction Requirements']), ["/transaction/index"]) ?>
-                <?= Html::a(Html::img('@web/images/urs.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Fund Transfer']), ["/site/search"]) ?>
+                <?= Html::a(Html::img('@web/images/urs.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Fund Transfer']), ["/project/index"]) ?>
                 <?= Html::a(Html::img('@web/images/transactions.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Disbursement']), ["/disbursement/index"]) ?>
                 <?= Html::a(Html::img('@web/images/home.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Go to home']), ["/site/index"]) ?>
             </div>

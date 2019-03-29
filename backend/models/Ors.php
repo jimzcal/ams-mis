@@ -23,6 +23,8 @@ use Yii;
  * @property string $rc
  * @property string $object_code
  * @property string $obligation
+ * @property string $date_obligated
+ * @property string $obligated_amount
  * @property string $dv_date
  * @property string $dv_no
  * @property string $fund_cluster
@@ -47,12 +49,26 @@ class Ors extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'obligation', 'dv_date', 'dv_no', 'fund_cluster', 'dv_amount', 'liquidation_date', 'liquidation_amount', 'liquidation_status'], 'required'],
-            [['date', 'dv_date', 'liquidation_date'], 'safe'],
+            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'obligation'], 'required'],
+            [['date', 'date_obligated', 'dv_date', 'liquidation_date'], 'safe'],
             [['particulars'], 'string'],
-            [['obligation', 'dv_amount', 'liquidation_amount'], 'number'],
-            [['region', 'sub_office', 'appropriation_class', 'ors_no', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'dv_no', 'fund_cluster', 'liquidation_status'], 'string', 'max' => 100],
+            [['obligation', 'obligated_amount', 'dv_amount', 'liquidation_amount'], 'number'],
+            [['region', 'sub_office', 'appropriation_class', 'ors_no', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'dv_no', 'fund_cluster', 'liquidation_status'], 'string', 'max' => 100],
+            [['funding_source'], 'string', 'max' => 8],
+            [['ors_year'], 'string', 'max' => 4],
+            [['ors_class', 'ors_month'], 'string', 'max' => 2],
         ];
+    }
+
+    public function getOrs($ors_no, $region, $sub_office)
+    {
+        $data = Ors::find()->where(['ors_no' => $ors_no])
+                    ->andWhere(['region' => $region])
+                    ->andWhere(['sub_office' => $sub_office])
+                    ->groupBy(['rc', 'mfo_pap', 'object_code'])
+                    ->all();
+
+        return $data;
     }
 
     /**
@@ -65,22 +81,24 @@ class Ors extends \yii\db\ActiveRecord
             'date' => 'Date',
             'region' => 'Region',
             'sub_office' => 'Sub Office',
-            'appropriation_class' => 'Appropriation Class',
-            'ors_no' => 'Ors No',
+            'appropriation_class' => 'Appropriation',
+            'ors_no' => 'ORS No',
             'particulars' => 'Particulars',
-            'ors_class' => 'Ors Class',
+            'ors_class' => 'ORS Class',
             'funding_source' => 'Funding Source',
-            'ors_year' => 'Ors Year',
-            'ors_month' => 'Ors Month',
-            'ors_serial' => 'Ors Serial',
-            'mfo_pap' => 'Mfo Pap',
-            'rc' => 'Rc',
+            'ors_year' => 'ORS Year',
+            'ors_month' => 'ORS Month',
+            'ors_serial' => 'ORS Serial',
+            'mfo_pap' => 'MFO/PAP',
+            'rc' => 'Responsibility Center',
             'object_code' => 'Object Code',
             'obligation' => 'Obligation',
-            'dv_date' => 'Dv Date',
-            'dv_no' => 'Dv No',
+            'date_obligated' => 'Date Obligated',
+            'obligated_amount' => 'Obligated Amount',
+            'dv_date' => 'DV Date',
+            'dv_no' => 'DV No',
             'fund_cluster' => 'Fund Cluster',
-            'dv_amount' => 'Dv Amount',
+            'dv_amount' => 'DV Amount',
             'liquidation_date' => 'Liquidation Date',
             'liquidation_amount' => 'Liquidation Amount',
             'liquidation_status' => 'Liquidation Status',

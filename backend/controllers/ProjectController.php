@@ -38,9 +38,19 @@ class ProjectController extends Controller
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $model = new Project();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->ors_no = implode('*', $model->ors_no);
+            $model->save(false);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -86,10 +96,12 @@ class ProjectController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->ors_no = implode('*', $model->ors_no);
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -107,6 +119,14 @@ class ProjectController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionObligate($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('obligate', [
+            'model' => $model,
+        ]);
     }
 
     /**

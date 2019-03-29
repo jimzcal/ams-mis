@@ -19,8 +19,8 @@ class OrsSearch extends Ors
     {
         return [
             [['id'], 'integer'],
-            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'dv_date', 'dv_no', 'fund_cluster', 'liquidation_date', 'liquidation_status'], 'safe'],
-            [['obligation', 'dv_amount', 'liquidation_amount'], 'number'],
+            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'date_obligated', 'dv_date', 'dv_no', 'fund_cluster', 'liquidation_date', 'liquidation_status'], 'safe'],
+            [['obligation', 'obligated_amount', 'dv_amount', 'liquidation_amount'], 'number'],
         ];
     }
 
@@ -63,6 +63,8 @@ class OrsSearch extends Ors
             'id' => $this->id,
             'date' => $this->date,
             'obligation' => $this->obligation,
+            'date_obligated' => $this->date_obligated,
+            'obligated_amount' => $this->obligated_amount,
             'dv_date' => $this->dv_date,
             'dv_amount' => $this->dv_amount,
             'liquidation_date' => $this->liquidation_date,
@@ -85,6 +87,8 @@ class OrsSearch extends Ors
             ->andFilterWhere(['like', 'dv_no', $this->dv_no])
             ->andFilterWhere(['like', 'fund_cluster', $this->fund_cluster])
             ->andFilterWhere(['like', 'liquidation_status', $this->liquidation_status]);
+
+        $query->groupBy(['ors_no']);
 
         return $dataProvider;
     }
