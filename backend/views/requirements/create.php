@@ -15,16 +15,16 @@ $this->title = 'Requirement';
 <div class="requirements-create">
   <?= Yii::$app->session->getFlash('error'); ?>
 
-  <div class="right-top-button">
-        <div class="right-button-text" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> New Requirement</div>
+  <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
+        <h3>New Requirement</h3>
     </div>
+    <div class="btn btn-primary" data-toggle="modal" data-target="#myModal">New Requirement</div><br><br>
 
   <div class="new-title">
-    <i class="fa fa-tasks" aria-hidden="true"></i> List of Requirements
-    <p style="text-indent: 28px; font-size: 14px;">The below requirements will appear to the transaction once selected during the latter's creation.</p>
+    <p style="text-indent: 28px; font-size: 14px; color: #fff;">These are the list of common requirements which canbe selected during the creation of transaction</p>
   </div>
 
-  <div style=" padding: 0; width: 88%; margin-left: auto; margin-right: auto; display: block;">
+  <div style=" padding: 0; width: 99%; margin-left: auto; margin-right: auto; display: block;">
       <?php echo $this->render('_search', ['model' => $searchModel]); ?>
   </div>
     

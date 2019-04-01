@@ -12,17 +12,20 @@ $this->title = 'TRANSACTIONS';
 ?>
 <div class="transaction-index">
 
-    <div class="right-top-button">
-        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> Requirement', ['/requirements/create'], ['class' => 'right-button-text']) ?> | 
-        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> New Transaction', ['create'], ['class' => 'right-button-text']) ?>
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
+        <h3>Common Government Transactions</h3>
     </div>
+
+    <p>
+        <?= Html::a('New Requirement', ['/requirements/create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('New Transaction', ['create'], ['class' => 'btn btn-primary']) ?>
+    </p>
 
     <div class="new-title">
-        <i class="fa fa-tasks" aria-hidden="true"></i> Common Government Transactions
-        <p style="text-indent: 28px; font-size: 14px;">Minimum Documentary Requirements of each transaction</p>
+        <p style="text-indent: 28px; font-size: 14px; color: #fff">Minimum Documentary Requirements of each transaction</p>
     </div>
 
-    <div style=" padding: 0; width: 88%; margin-left: auto; margin-right: auto; display: block;">
+    <div style=" padding: 0; width: 98%; margin-left: auto; margin-right: auto; display: block;">
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     </div>
 

@@ -205,7 +205,7 @@ $this->title = $model->dv_no;
                         </td>
                         <td colspan="2" style="text-align: center; width: 65%;">
                             <span style="font-size: 18px; font-weight: bold;">TRACKING FORM</span><br>
-                            Accounting Division
+                            Accounting Division DV Tracking System
                         </td>
                     </tr>
                     <tr style = "font-size: 11px;">
@@ -264,7 +264,9 @@ $this->title = $model->dv_no;
                     </tr>
                     <tr style = "font-size: 11px;">
                         <td style = "font-weight: bold;">Received by</td>
-                        <td></td>
+                        <td>
+                            <?= $model->getDvstatus($model->dv_no) ?>
+                        </td>
                     </tr>
                     <tr style = "font-size: 11px;">
                         <td style = "font-weight: bold;">Status</td>

@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <table class="search-table">
+    <table class="search-table" style="width: 60%;">
         <tr>
             <td valign="top" align="right">
                 <i class="fa fa-search" style="color: green; font-size: 30px;"></i>

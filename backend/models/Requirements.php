@@ -26,8 +26,8 @@ class Requirements extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['requirement'], 'required'],
-            [['requirement'], 'string', 'max' => 200],
+            [['requirements'], 'required'],
+            [['requirements'], 'string', 'max' => 200],
         ];
     }
 
@@ -38,7 +38,7 @@ class Requirements extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'requirement' => 'Requirement',
+            'requirements' => 'Requirements',
         ];
     }
 }

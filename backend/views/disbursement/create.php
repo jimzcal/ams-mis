@@ -12,7 +12,7 @@ $this->title = 'New Disbursement';
 ?>
 <div class="disbursement-create">
 
-    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right;">
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
         <h3>DISBURSEMENT VOUCHER</h3>
     </div>
 

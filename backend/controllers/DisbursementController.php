@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\Transaction;
 use backend\models\DvRemarks;
+use backend\models\TransactionStatus;
 
 /**
  * DisbursementController implements the CRUD actions for Disbursement model.
@@ -81,7 +82,19 @@ class DisbursementController extends Controller
     {
         $model = new Disbursement();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $transaction_model = new TransactionStatus();
+
+            $transaction_model->region = Yii::$app->user->identity->region;
+            $transaction_model->dv_no = $model->dv_no;
+            $transaction_model->process = 'Receiving';
+            $transaction_model->employee = Yii::$app->user->identity->fullname;
+            $transaction_model->save(false);
+
+            $model->payee = strtoupper($model->payee);
+            $model->save(false);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

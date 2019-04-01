@@ -15,15 +15,15 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <table class="search-table">
+    <table class="search-table" style="width: 70%;">
         <tr>
-            <td valign="top" align="right">
+            <td valign="top" align="right" style="padding-right: 2px;">
                 <i class="fa fa-search" style="color: green; font-size: 30px;"></i>
             </td>
-            <td>
+            <td style="padding-right: 2px;">
                  <?= $form->field($model, 'name')->textInput(['placeholder'=>'Transaction'])->label(false) ?>
             </td>
-            <td>
+            <td style="padding-right: 2px;">
                 <?= $form->field($model, 'requirements')->textInput(['placeholder'=>'Requirements'])->label(false) ?>
             </td>
             <td>

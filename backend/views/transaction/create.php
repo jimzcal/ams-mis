@@ -13,8 +13,8 @@ $this->title = 'Add New Transaction';
 <div class="transaction-create">
 	<?= Yii::$app->session->getFlash('error'); ?>
 
-	    <div class="new-title">
-	        <i class="fa fa-id-card" aria-hidden="true"></i> New Transaction
+	    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
+	        <h3>Common Government Transaction</h3>
 	    </div>
 
 	    <?= $this->render('_form', [

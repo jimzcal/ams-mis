@@ -40,7 +40,7 @@ class Disbursement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'region', 'dv_no', 'payee', 'fund_cluster', 'rc_code', 'transaction', 'particulars', 'attachments', 'gross_amount', 'net_amount', 'status'], 'required'],
+            [['date', 'dv_no', 'payee', 'fund_cluster', 'rc_code', 'transaction', 'particulars', 'gross_amount', 'status'], 'required'],
             [['date'], 'safe'],
             [['particulars', 'attachments'], 'string'],
             [['gross_amount', 'net_amount'], 'number'],
@@ -76,6 +76,24 @@ class Disbursement extends \yii\db\ActiveRecord
         return $value;
     }
 
+    public function getDvno()
+    {
+        $data = Disbursement::find()->all();
+
+        $number = sizeof($data);
+
+        $dv_no = date('Y-m').'-00'.($number+1);
+
+        return $dv_no;
+    }
+
+    public function getDvstatus($dv_no)
+    {
+        $data = TransactionStatus::find()->where(['dv_no' => $dv_no])->andWhere(['process' => 'Receiving'])->one();
+
+        return $data->employee;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -85,15 +103,15 @@ class Disbursement extends \yii\db\ActiveRecord
             'id' => 'ID',
             'date' => 'Date',
             'region' => 'Region',
-            'dv_no' => 'Dv No',
+            'dv_no' => 'DV No',
             'payee' => 'Payee',
             'fund_cluster' => 'Fund Cluster',
-            'rc_code' => 'Rc Code',
+            'rc_code' => 'RC Code',
             'transaction' => 'Transaction',
             'particulars' => 'Particulars',
             'attachments' => 'Attachments',
-            'gross_amount' => 'Gross Amount',
-            'net_amount' => 'Net Amount',
+            'gross_amount' => 'Gross',
+            'net_amount' => 'Net',
             'status' => 'Status',
         ];
     }

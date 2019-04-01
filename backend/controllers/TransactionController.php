@@ -77,7 +77,7 @@ class TransactionController extends Controller
     public function actionCreate()
     {
         $model = new Transaction();
-        $requirements = requirements::find(['attribute' => 'requirement'])->orderBy(['requirement'=>SORT_NATURAL])->all();
+        $requirements = requirements::find()->orderBy(['requirement'=>SORT_NATURAL])->all();
         //$requirements = $requirements->orderBy([$requirements->requirements, SORT_NATURAL])->all();
         //$requirements=ArrayHelper::map(requirements::find()->all(), 'requirement', 'requirement'); 
 

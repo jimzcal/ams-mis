@@ -15,10 +15,6 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'date') ?>
-
-    <?= $form->field($model, 'region') ?>
-
     <?= $form->field($model, 'dv_no') ?>
 
     <?= $form->field($model, 'payee') ?>
@@ -29,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'transaction') ?>
 
-    <?php // echo $form->field($model, 'particulars') ?>
+    <?php  echo $form->field($model, 'particulars') ?>
 
     <?php // echo $form->field($model, 'attachments') ?>
 
