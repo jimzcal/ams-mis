@@ -29,22 +29,32 @@ use backend\models\Project;
                 <?= $form->field($model, 'region')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->region, 'readOnly' => true]) ?>
             </td>
             <td style="width: 30%">
-                <?= $form->field($model, 'sub_office')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'sub_office')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map(Project::find()->groupBy(['sub_office'])
+                            ->all(),'sub_office', 'sub_office'),
+                    'options' => ['placeholder' => 'Select Sub-office', 
+                    'multiple' => false],
+                    'pluginOptions' => [
+                        'tags' => true,
+                        'tokenSeparators' => [';'],
+                    ],
+                ]);
+                ?>
             </td>
             <td>
                 <?= $form->field($model, 'date')->widget(DatePicker::classname(), [
-                            'options' => [
-                                // 'class' => 'new-textfield',
-                                'placeholder' => 'Date',
-                                // 'autofocus' => 'autofocus',
-                            ],
+                    'options' => [
+                        'value' => date('Y-m-d'),
+                        'placeholder' => 'Date',
+                        // 'autofocus' => 'autofocus',
+                    ],
 
-                            'pluginOptions' => [
-                            'autoclose'=>true,
-                            'todayHighlight' => true,
-                            'format' => 'yyyy-m-d'
-                                ]
-                        ]); ?>
+                    'pluginOptions' => [
+                    'autoclose'=>true,
+                    'todayHighlight' => true,
+                    'format' => 'yyyy-m-d'
+                        ]
+                ]); ?>
             </td>
         </tr>
         <tr>

@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'region')->dropDownList(
                     [
                         'NCR' => 'NCR - National Capital Region',
+                        'Central Office' => 'Central Office',
                         'Region I' => 'Region I - Ilocos Region',
                         'CAR' => 'CAR - Cordillera Administrative Region',
                         'Region II' => 'Region II - Cagayan Valley Region',

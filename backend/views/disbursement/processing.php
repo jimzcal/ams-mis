@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Disbursement */
 
-$this->title = 'New Disbursement';
+$this->title = 'Processing DV';
 // $this->params['breadcrumbs'][] = ['label' => 'Disbursements', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 ?>

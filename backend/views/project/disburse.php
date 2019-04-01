@@ -24,7 +24,7 @@ $this->title = 'ORS - '.$model->title;
     <?php $form = ActiveForm::begin(); ?>
 
      <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
-        <h3>OBLIGATE PROJECT</h3>
+        <h3>DISBURSEMENT OF PROJECT</h3>
     </div>
     <br>
     <div class="row">
@@ -43,7 +43,7 @@ $this->title = 'ORS - '.$model->title;
         <div class="col-md-9">
             <div style="background-color: #fff; width: 100%; font-size: 12px; margin-right: auto; margin-left: auto; border-radius: 5px;">
             <div style="width: 100%; border-top-right-radius: 5px; border-top-left-radius: 5px; background-color: #e6e6e6; height: 30px; padding: 5px; line-height: 20px; color: #4d4d4d">
-                OBLIGATE PROJECT
+                DISBURSE PROJECT
             </div>
             <table style="width: 100%;" class="table table-bordered table-striped">
                 <tr>
@@ -71,21 +71,29 @@ $this->title = 'ORS - '.$model->title;
                     </td>
                 </tr>
             </table>
-            <div style="width: 30%; padding: 5px; float: right;">
-            <?= $form->field($new_model, 'date')->widget(DatePicker::classname(), [
-                'options' => [
-                    'value' => date('Y-m-d'),
-                    'placeholder' => 'Date',
-                    // 'autofocus' => 'autofocus',
-                ],
 
-                'pluginOptions' => [
-                'autoclose'=>true,
-                'todayHighlight' => true,
-                'format' => 'yyyy-m-d'
-                    ]
-            ])->label(false); ?>
-            </div>
+            <table style="width: 100%">
+                <tr>
+                    <td style="padding: 5px;">
+                        <?= $form->field($new_model, 'fund_cluster')->dropdownList(['01' => '101 - REgular Agency Fund', '102' => '102 - Foreign Assisted Project Fund', '103' => '103 - Special Account (Locally Funded)', '104' => '104 - Special Account (Foreign Assited)']) ?>
+                    </td>
+                    <td style="padding: 5px;">
+                        <?= $form->field($new_model, 'date')->widget(DatePicker::classname(), [
+                            'options' => [
+                                'value' => date('Y-m-d'),
+                                'placeholder' => 'Date',
+                                // 'autofocus' => 'autofocus',
+                            ],
+
+                            'pluginOptions' => [
+                            'autoclose'=>true,
+                            'todayHighlight' => true,
+                            'format' => 'yyyy-m-d'
+                                ]
+                        ]); ?>
+                    </td>
+                </tr>
+            </table>
             <table style="width: 100%" class="table">
                 <tr>
                     <th style="text-align: center; width: 25%;">ORS No.</th>
@@ -100,7 +108,6 @@ $this->title = 'ORS - '.$model->title;
                         <td style="text-align: center;">
                             <?= $ors->ors_no ?>
                             <?= $form->field($new_model, 'ors_no[]')->hiddenInput(['value' => $ors->ors_no])->label(false) ?>
-                            <?= $form->field($new_model, 'appropriation_class[]')->hiddenInput(['value' => $ors->appropriation_class])->label(false) ?>
                         </td>
                         <td style="text-align: center;">
                             <?= $ors->rc ?>

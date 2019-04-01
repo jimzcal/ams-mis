@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Obligation', ['ors/index'], ['class' => 'btn btn-success']) ?>
         <span class = 'btn btn-success' data-toggle="modal" data-target="#newModal"> New Project </span>
-        <?= Html::a('Reports', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Reports', ['report'], ['class' => 'btn btn-success']) ?>
     </p>
     <!-- <br> -->
     <div class="row">
@@ -39,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         ['class' => 'yii\grid\SerialColumn'],
 
                         //'id',
-                        'region',
-                        'sub_office',
+                        //'region',
+                        //'sub_office',
                         'date',
                         'title',
                         'implementing_agency',

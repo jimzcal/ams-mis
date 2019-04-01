@@ -23,15 +23,7 @@ use Yii;
  * @property string $rc
  * @property string $object_code
  * @property string $obligation
- * @property string $date_obligated
- * @property string $obligated_amount
- * @property string $dv_date
  * @property string $dv_no
- * @property string $fund_cluster
- * @property string $dv_amount
- * @property string $liquidation_date
- * @property string $liquidation_amount
- * @property string $liquidation_status
  */
 class Ors extends \yii\db\ActiveRecord
 {
@@ -49,14 +41,40 @@ class Ors extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'obligation'], 'required'],
-            [['date', 'date_obligated', 'dv_date', 'liquidation_date'], 'safe'],
+            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'obligation', 'dv_no'], 'required'],
+            [['date'], 'safe'],
             [['particulars'], 'string'],
-            [['obligation', 'obligated_amount', 'dv_amount', 'liquidation_amount'], 'number'],
-            [['region', 'sub_office', 'appropriation_class', 'ors_no', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'dv_no', 'fund_cluster', 'liquidation_status'], 'string', 'max' => 100],
+            [['obligation'], 'number'],
+            [['region', 'sub_office', 'appropriation_class', 'ors_no', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'dv_no'], 'string', 'max' => 100],
             [['funding_source'], 'string', 'max' => 8],
             [['ors_year'], 'string', 'max' => 4],
             [['ors_class', 'ors_month'], 'string', 'max' => 2],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'date' => 'Date',
+            'region' => 'Region',
+            'sub_office' => 'Sub-Office',
+            'appropriation_class' => 'Appropriation',
+            'ors_no' => 'ORS No',
+            'particulars' => 'Particulars',
+            'ors_class' => 'Class',
+            'funding_source' => 'Funding Source',
+            'ors_year' => 'Year',
+            'ors_month' => 'Month',
+            'ors_serial' => 'Serial',
+            'mfo_pap' => 'MFO-PAP',
+            'rc' => 'Responsibility Center',
+            'object_code' => 'Object Code',
+            'obligation' => 'Obligation',
+            'dv_no' => 'Dv No',
         ];
     }
 
@@ -69,39 +87,5 @@ class Ors extends \yii\db\ActiveRecord
                     ->all();
 
         return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'date' => 'Date',
-            'region' => 'Region',
-            'sub_office' => 'Sub Office',
-            'appropriation_class' => 'Appropriation',
-            'ors_no' => 'ORS No',
-            'particulars' => 'Particulars',
-            'ors_class' => 'ORS Class',
-            'funding_source' => 'Funding Source',
-            'ors_year' => 'ORS Year',
-            'ors_month' => 'ORS Month',
-            'ors_serial' => 'ORS Serial',
-            'mfo_pap' => 'MFO/PAP',
-            'rc' => 'Responsibility Center',
-            'object_code' => 'Object Code',
-            'obligation' => 'Obligation',
-            'date_obligated' => 'Date Obligated',
-            'obligated_amount' => 'Obligated Amount',
-            'dv_date' => 'DV Date',
-            'dv_no' => 'DV No',
-            'fund_cluster' => 'Fund Cluster',
-            'dv_amount' => 'DV Amount',
-            'liquidation_date' => 'Liquidation Date',
-            'liquidation_amount' => 'Liquidation Amount',
-            'liquidation_status' => 'Liquidation Status',
-        ];
     }
 }

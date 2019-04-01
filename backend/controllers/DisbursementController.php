@@ -124,6 +124,15 @@ class DisbursementController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionProcessing($id)
+    {
+        $model = $this->findModel($id);
+
+         return $this->render('processing', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Finds the Disbursement model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

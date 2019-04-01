@@ -15,9 +15,13 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'region') ?>
+    <?php if(Yii::$app->user->identity->region == 'Central Office') : ?>
 
-    <?= $form->field($model, 'sub_office') ?>
+        <?= $form->field($model, 'region') ?>
+
+        <?= $form->field($model, 'sub_office') ?>
+
+    <?php endif ?>
 
     <?= $form->field($model, 'date') ?>
 
