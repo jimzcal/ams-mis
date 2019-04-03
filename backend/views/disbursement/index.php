@@ -17,6 +17,7 @@ $this->title = 'Disbursements';
     </div>
     <p>
         <?= Html::a('New Disbursement', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Generate Log-sheet', ['logsheet'], ['class' => 'btn btn-success']) ?>
     </p>
     <br>
     <div class="row">

@@ -101,6 +101,8 @@ class ProjectController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
+            Yii::$app->getSession()->setFlash('success', 'Data has been successfully updated');
+
             $model->ors_no = implode('*', $model->ors_no);
             $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
@@ -121,6 +123,7 @@ class ProjectController extends Controller
     {
         $this->findModel($id)->delete();
 
+        Yii::$app->getSession()->setFlash('success', 'Data has been successfully deleted');
         return $this->redirect(['index']);
     }
 
@@ -154,6 +157,8 @@ class ProjectController extends Controller
 
                 $obligation_model->save(false);
             }
+
+            Yii::$app->getSession()->setFlash('success', 'Successfully obligated an amount for the project');
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -195,6 +200,7 @@ class ProjectController extends Controller
                 $disbursed_model->save(false);
             }
 
+            Yii::$app->getSession()->setFlash('success', 'Successfully disbursed an amount for the project');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -234,6 +240,8 @@ class ProjectController extends Controller
 
                 $liquidated_model->save(false);
             }
+
+            Yii::$app->getSession()->setFlash('success', 'Successfully liquidated an amount for the project');
 
             return $this->redirect(['view', 'id' => $model->id]);
         }

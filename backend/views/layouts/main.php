@@ -49,9 +49,10 @@ AppAsset::register($this);
                 <?php if (!Yii::$app->user->can('manageUsers')) : ?>
                     <?= Html::a(Html::img('@web/images/user.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'User Account']), ['/user/admin/update','id'=>Yii::$app->user->identity->id]) ?>
                 <?php endif ?>
-                <?= Html::a(Html::img('@web/images/operating_unit.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Operating Unit']), ["/operating-unit/index"]) ?>
-                <?= Html::a(Html::img('@web/images/citizen_charter.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Citizens Charter']), ["/images/index"]) ?>
                 <?= Html::a(Html::img('@web/images/dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Transaction Requirements']), ["/transaction/index"]) ?>
+                <?= Html::a(Html::img('@web/images/citizen_charter.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Citizens Charter']), ["/images/index"]) ?>
+                <?= Html::a(Html::img('@web/images/po_icon.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Purchase Order']), ["/purchase-order/index"]) ?>
+                <?= Html::a(Html::img('@web/images/operating_unit.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Operating Unit']), ["/operating-unit/index"]) ?>
                 <?= Html::a(Html::img('@web/images/urs.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Fund Transfer']), ["/project/index"]) ?>
                 <?= Html::a(Html::img('@web/images/transactions.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Disbursement']), ["/disbursement/index"]) ?>
                 <?= Html::a(Html::img('@web/images/home.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Go to home']), ["/site/index"]) ?>
@@ -60,29 +61,13 @@ AppAsset::register($this);
     </div>
 <!--body-->
     <div class="content-wrapper">
-        <?php
-            $exec = exec("hostname"); //the "hostname" is a valid command in both windows and linux
-            $hostname = trim($exec); //remove any spaces before and after
-            $ip = gethostbyname($hostname);
-
-            //echo gethostbyaddr($_SERVER['REMOTE_ADDR']);
-            //echo php_uname('n');
-        ?>
-            <?php 
-                if (!Yii::$app->user->isGuest) {
-                    echo Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                                ]);
-                        }
-            ?>
-            <div style="width: 60%; margin-right: auto; margin-left: auto;">
+        <div style="width: 100%; margin-right: auto; margin-left: auto; z-index: 1000; margin-top: 30px; position: absolute;">
+            <div style="width: 70%; margin-right: auto; margin-left: auto;">
                 <?= Alert::widget() ?>
             </div>
-            
-            <?php // date("Y-M-d") ?>
-            <?php //$diff = date_diff(date_create(date("Y-M-d", $notifications->due_date)), date_create(date("Y-M-d"))); ?>
-            <?php //$diff->format('%d') ?>
-            <?= $content ?>
+        </div>
+
+        <?= $content ?>
     </div>
     <div class="footer" id="noprint">
         <p>

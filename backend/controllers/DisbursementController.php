@@ -189,6 +189,27 @@ class DisbursementController extends Controller
         ]);
     }
 
+    public function actionLogsheet()
+    {
+        $model = new Disbursement();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $data = Disbursement::find()->where(['fund_cluster' => $model->fund_cluster])
+                                    ->andWhere(['between', 'date', $model->date_from, $model->date_to])
+                                    ->all();
+
+            return $this->render('report', [
+            'model' => $model,
+            'data' => $data,
+        ]);
+        }
+
+        return $this->render('logsheetIndex', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Finds the Disbursement model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

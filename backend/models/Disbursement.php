@@ -34,7 +34,7 @@ class Disbursement extends \yii\db\ActiveRecord
         return 'disbursement';
     }
 
-    public $remarks;
+    public $remarks, $date_from, $date_to;
 
     /**
      * {@inheritdoc}
@@ -43,7 +43,7 @@ class Disbursement extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'dv_no', 'payee', 'fund_cluster', 'rc_code', 'transaction', 'particulars', 'gross_amount', 'status'], 'required'],
-            [['date'], 'safe'],
+            [['date', 'date_from', 'date_to'], 'safe'],
             [['particulars', 'attachments', 'remarks'], 'string'],
             [['gross_amount', 'net_amount'], 'number'],
             [['region', 'dv_no', 'payee', 'fund_cluster', 'rc_code', 'transaction', 'status'], 'string', 'max' => 100],
