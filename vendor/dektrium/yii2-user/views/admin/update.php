@@ -26,6 +26,8 @@ $this->title = Yii::t('user', 'Update Accounts');
 
 <?php if (Yii::$app->user->can('manageUsers')) : ?>
     <?= $this->render('_menu') ?>
+<?php else : ?>
+    <br><br><br><br>
 <?php endif ?>
 
 <div class="row update-profile">

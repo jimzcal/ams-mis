@@ -27,9 +27,9 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="wrap">
-    <?= Html::img('@web/images/title_banner2.png', ['alt'=>'ams-icon', 'class' => 'title-banner']);?>
+    <?= Html::img('@web/images/title_banner2.png', ['alt'=>'ams-icon', 'class' => 'title-banner', 'id' => 'no-print']);?>
  
-    <div class="top-banner">
+    <div class="top-banner" id="no-print">
         <?= Html::a(Html::img('@web/images/citizen_charter.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Citizens Charter']), ["/images/index"]) ?>
         <?= Html::a(Html::img('@web/images/dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Transaction Requirements']), ["/transaction/index"]) ?>
         <?= Html::a(Html::img('@web/images/search_dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Search DV']), ["/site/search"]) ?>

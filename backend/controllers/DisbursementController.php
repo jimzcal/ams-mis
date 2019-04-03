@@ -57,9 +57,9 @@ class DisbursementController extends Controller
     {
         $model = Disbursement::find()->where(['id' => $id])->one();
 
-        $dv_attachments = explode(',', $model->attachments);
+        $dv_attachments = explode('*', $model->attachments);
         $requirements = Transaction::find()->where(['id' => $model->transaction])->one();
-        $required = explode(',', $requirements->requirements);
+        $required = explode('*', $requirements->requirements);
         $lacking = array_diff($required, $dv_attachments);
 
         $remarks = DvRemarks::find()->where(['dv_no' => $model->dv_no])
@@ -114,7 +114,11 @@ class DisbursementController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->payee = strtoupper($model->payee);
+            $model->save(false);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -141,8 +145,47 @@ class DisbursementController extends Controller
     {
         $model = $this->findModel($id);
 
-         return $this->render('processing', [
+        $remarks = DvRemarks::find()->where(['dv_no' => $model->dv_no])->all();
+
+        $check_remark = DvRemarks::find()->where(['employee_id' => Yii::$app->user->identity->id])
+                                    ->andWhere(['dv_no' => $model->dv_no])
+                                    ->one();
+
+        $attachments = explode('*', $model->attachments);
+        $requirements = Transaction::find()->where(['id' => $model->transaction])->one();
+        $documents = explode("*", $requirements->requirements);
+
+        $lacking = array_diff($documents, $attachments);
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->attachments = isset($_POST['requirements']) == false ? '' : implode('*', $_POST['requirements']);
+            $model->save(false);
+
+            $remark_model = $check_remark == null ? new DvRemarks() : $check_remark;
+
+            if($model->remarks == null && $check_remark != null)
+            {
+                $check_remark->delete();
+            }
+
+            if($model->remarks != null)
+            {
+                $remark_model->remarks = $model->remarks;
+                $remark_model->dv_no = $model->dv_no;
+                $remark_model->employee_id = Yii::$app->user->identity->id;
+                $remark_model->save(false);
+            }
+
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('processing', [
             'model' => $model,
+            'remarks' => $remarks,
+            'check_remark' => $check_remark,
+            'attachments' => $attachments,
+            'lacking' => $lacking,
         ]);
     }
 

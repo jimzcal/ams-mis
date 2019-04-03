@@ -14,31 +14,20 @@ $this->title = 'Images';
 $count = 1;
 ?>
 <div class="images-index">
-  <?php $form = ActiveForm::begin(['action' =>['delete'], 'options'=>['enctype'=>'multipart/form-data']]); ?>
-    <div class="title">
-        <div class="form-group">
-          
-        </div>
-
-        
+<?php $form = ActiveForm::begin(['action' =>['delete'], 'options'=>['enctype'=>'multipart/form-data']]); ?>
+  <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;" id="no-print">
+        <h3>CITIZEN'S CHARTER</h3>
     </div>
-
-    <div class="right-top-button">
-        <div class="right-button-text" data-toggle="modal" data-target="#newModal">
-          <i class="glyphicon glyphicon-plus"></i> Add Image</div> | 
-          <?= Html::submitButton('<i class="glyphicon glyphicon-trash"></i> Delete', [
-            'class' => 'right-button-text',
+    <p>
+        <div class="btn btn-success" data-toggle="modal" data-target="#newModal">Add Image</div>
+        <?= Html::submitButton('Delete', [
+            'class' => 'btn btn-success',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
-    </div>
-
-    <div class="new-title">
-        <i class="fa fa-file-photo-o"></i> Gallery
-        <p style="text-indent: 25px; font-size: 14px;">The images here are displayed also to the Acounting Digital Signage.</p>
-    </div>
+    </p>
 
     <div class="album-form">
         <div class="row">

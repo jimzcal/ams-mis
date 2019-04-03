@@ -51,7 +51,7 @@ $this->title = 'Transactions';
                <div class="mini-header">
                     <?= strtoupper($value->name) ?>
                </div>
-               <?php $requirements = explode(',', $value->requirements) ?>
+               <?php $requirements = explode('*', $value->requirements) ?>
                     <div style="padding: 5px;">
                         <?php foreach ($requirements as $id => $req)  : ?>
                            <div style="width: 320px; display: inline-block; margin: 5px; vertical-align: text-top;">

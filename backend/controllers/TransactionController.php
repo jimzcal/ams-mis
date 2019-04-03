@@ -84,7 +84,7 @@ class TransactionController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             $Requirements = array_filter($model->requirements, function($value){ return $value != '0'; } );
-            $model->requirements = implode(',', $Requirements);
+            $model->requirements = implode('*', $Requirements);
             $model->save();
 
             Yii::$app->getSession()->setFlash('success', 'Success! New transaction has been added');
@@ -120,7 +120,7 @@ class TransactionController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             $Requirements = array_filter($model->requirements, function($value){ return $value != '0'; } );
-            $model->requirements = implode(',', $Requirements);
+            $model->requirements = implode('*', $Requirements);
             $model->save();
 
             Yii::$app->getSession()->setFlash('success', 'Success! Transaction has been updated');

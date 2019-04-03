@@ -18,13 +18,13 @@ $this->title = $model->dv_no;
 </style>
 <div class="disbursement-view">
 
-    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;" id="no-print">
         <h3>DISBURSEMENT VOUCHER</h3>
     </div>
     <br>
     <div class="row">
-        <div class="col-md-3">
-            <div style="width: 100%; min-height: 400px; padding: 10px;">
+        <div class="col-md-3" id="no-print">
+            <div style="width: 100%; min-height: 460px; padding: 10px; background-color: #0099cc;">
                 <div style="background-color: #ccffff; width: 100%; padding: 12px; color: #595959; border: solid 1px #00ace6;">
                     <span class="fa fa-map-signs" style="color: green; text-shadow: 2px 2px 2px #fff; font-size: 20px;"></span> DV FLOW INDICATOR
                 </div><br>
@@ -205,7 +205,7 @@ $this->title = $model->dv_no;
                         </td>
                         <td colspan="2" style="text-align: center; width: 65%;">
                             <span style="font-size: 18px; font-weight: bold;">TRACKING FORM</span><br>
-                            Accounting Division
+                            Accounting Division DV Tracking System
                         </td>
                     </tr>
                     <tr style = "font-size: 11px;">
@@ -240,7 +240,7 @@ $this->title = $model->dv_no;
                     </tr>
                     <tr style = "font-size: 11px;">
                         <td style = "font-weight: bold;">Net Amount</td>
-                        <td></td>
+                        <td><?= number_format($model->net_amount, 2) ?></td>
                         <td colspan="2" rowspan="6">
                             <?php foreach ($dv_attachments as $key => $attach) : ?>
                                 <?php if($attach != null) : ?>
@@ -264,7 +264,9 @@ $this->title = $model->dv_no;
                     </tr>
                     <tr style = "font-size: 11px;">
                         <td style = "font-weight: bold;">Received by</td>
-                        <td></td>
+                        <td>
+                            <?= $model->getDvstatus($model->dv_no) ?>
+                        </td>
                     </tr>
                     <tr style = "font-size: 11px;">
                         <td style = "font-weight: bold;">Status</td>
@@ -276,19 +278,19 @@ $this->title = $model->dv_no;
                     <tr style = "font-size: 11px;">
                         <td colspan="2" style="min-height: 100px;">
                             <?php foreach ($remarks as $key => $value) : ?>
+                            <div class="alert alert-success" style="margin-bottom: 0px;">
                             <table style="width: 100%;">
                                 <tr>
-                                    <td style="vertical-align: top; color: #000; text-align: right;">
-                                        <?= $value->fullname ?>
+                                    <td style="vertical-align: top; color: #000; text-align: right; border-right: solid 1px; padding-right: 3px; width: 40%">
+                                        <?= $value->name->fullname ?>
                                         <p style="font-size: 9px; color: #000"><?= $value->date ?></p>
                                     </td>
-                                    <td style="padding-left: 10px; vertical-align: top; width: 70%;">
-                                        <div style="width: 100%; border-radius: 5px; padding: 5px; background-color: #f2f2f2; font-style: italic; color: #666666">
-                                            <p><?= $value->remarks ?></p>
-                                        </div>
+                                    <td style="padding-left: 3px; vertical-align: top;">
+                                        <p><?= $value->remarks ?></p>
                                     </td>
                                 </tr>
                             </table>
+                            </div>
                             <br>
                         <?php endforeach ?>
                         </td>

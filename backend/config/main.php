@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log', 'thumbnail'],
-    'homeUrl' => '/admin',
+    // 'homeUrl' => '/admin', uncomment this when go on live
     'modules' => [
         'pdfjs' => ['class' => '\yii2assets\pdfjs\Module',],
         'rbac' => [
@@ -32,7 +32,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
-            // 'baseUrl' => 'http://acctg.da.gov.ph/backend/web',
+            // 'baseUrl' => 'http://acctg.da.gov.ph/backend/web', uncomment this when go on live
             ],
 
             'thumbnail' => [
@@ -75,7 +75,7 @@ return [
         
         'urlManager' => [
                 'class' => 'yii\web\UrlManager',
-                // 'baseUrl' => 'http://acctg.da.gov.ph/backend/web',
+                // 'baseUrl' => 'http://acctg.da.gov.ph/backend/web', uncomment this when go on live
                 'enablePrettyUrl' => true,
                 'showScriptName' => false,
                 // 'suffix'=>'.html',

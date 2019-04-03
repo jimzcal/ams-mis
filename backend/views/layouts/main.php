@@ -41,8 +41,15 @@ AppAsset::register($this);
         <?= Html::img('@web/images/title_banner2.png', ['alt'=>'ams-icon', 'class' => 'title-banner']);?>
         <?php if(!Yii::$app->user->isGuest) : ?>
             <div class="top-banner">
-                <?= Html::a(Html::img('@web/images/login.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Logout']), ["site/logout"], ['data' => ['method' => 'post']]) ?>
-                <?= Html::a(Html::img('@web/images/user.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'User Account']), ["/site/index"]) ?>
+                <?= Html::a(Html::img('@web/images/login.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Logout']), ["/user/logout"], ['data' => ['method' => 'post']]) ?>
+                
+                <?php if (Yii::$app->user->can('manageUsers')) : ?>
+                    <?= Html::a(Html::img('@web/images/user.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'User Account']), ["/user/admin/index"]) ?>
+                <?php endif ?>
+                <?php if (!Yii::$app->user->can('manageUsers')) : ?>
+                    <?= Html::a(Html::img('@web/images/user.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'User Account']), ['/user/admin/update','id'=>Yii::$app->user->identity->id]) ?>
+                <?php endif ?>
+                <?= Html::a(Html::img('@web/images/operating_unit.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Operating Unit']), ["/operating-unit/index"]) ?>
                 <?= Html::a(Html::img('@web/images/citizen_charter.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Citizens Charter']), ["/images/index"]) ?>
                 <?= Html::a(Html::img('@web/images/dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Transaction Requirements']), ["/transaction/index"]) ?>
                 <?= Html::a(Html::img('@web/images/urs.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Fund Transfer']), ["/project/index"]) ?>

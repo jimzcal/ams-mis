@@ -75,7 +75,10 @@ $this->title = 'ORS - '.$model->title;
             <table style="width: 100%">
                 <tr>
                     <td style="padding: 5px;">
-                        <?= $form->field($new_model, 'fund_cluster')->dropdownList(['01' => '101 - REgular Agency Fund', '102' => '102 - Foreign Assisted Project Fund', '103' => '103 - Special Account (Locally Funded)', '104' => '104 - Special Account (Foreign Assited)']) ?>
+                        <?= $form->field($new_model, 'dv_no')->textInput(['placeholder' => 'Enter DV No.']) ?>
+                    </td>
+                    <td style="padding: 5px;">
+                        <?= $form->field($new_model, 'fund_cluster')->dropdownList(['01' => '01 - Regular Agency Fund', '02' => '02 - Foreign Assisted Project Fund', '103' => '103 - Special Account (Locally Funded)', '04' => '04 - Special Account (Foreign Assited)']) ?>
                     </td>
                     <td style="padding: 5px;">
                         <?= $form->field($new_model, 'date')->widget(DatePicker::classname(), [

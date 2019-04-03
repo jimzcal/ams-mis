@@ -99,7 +99,6 @@ class SiteController extends Controller
                     $model = $check_data == null ? new TransactionStatus() : $check_data;
 
                     $model->dv_no = $dv_no;
-                    $model->date = date('Y-m-d');
                     $model->process = 'Verifying';
                     $model->employee = Yii::$app->user->identity->fullname;
 
@@ -111,17 +110,103 @@ class SiteController extends Controller
                 if (\Yii::$app->user->can('processor'))
                 {
                     $check_data = TransactionStatus::find()->where(['dv_no' => $dv_no])
+                                    ->andWhere(['process' => 'Processing'])
+                                    ->one();
+
+                    $model = $check_data == null ? new TransactionStatus() : $check_data;
+
+                    $model->dv_no = $dv_no;
+                    $model->process = 'Processing';
+                    $model->employee = Yii::$app->user->identity->fullname;
+
+                    $model->save(false);
+
+                    return $this->redirect(['disbursement/processing', 'id' => $dv->id]);
+                }
+
+                if (\Yii::$app->user->can('Verifier'))
+                {
+                    $check_data = TransactionStatus::find()->where(['dv_no' => $dv_no])
                                     ->andWhere(['process' => 'Verifying'])
                                     ->one();
 
                     $model = $check_data == null ? new TransactionStatus() : $check_data;
 
                     $model->dv_no = $dv_no;
-                    $model->date = date('Y-m-d');
                     $model->process = 'Verifying';
                     $model->employee = Yii::$app->user->identity->fullname;
 
                     $model->save(false);
+
+                    return $this->redirect(['disbursement/processing', 'id' => $dv->id]);
+                }
+
+                if (\Yii::$app->user->can('NCA_Controller'))
+                {
+                    $check_data = TransactionStatus::find()->where(['dv_no' => $dv_no])
+                                    ->andWhere(['process' => 'NCA Controlling'])
+                                    ->one();
+
+                    $model = $check_data == null ? new TransactionStatus() : $check_data;
+
+                    $model->dv_no = $dv_no;
+                    $model->process = 'NCA Controlling';
+                    $model->employee = Yii::$app->user->identity->fullname;
+
+                    $model->save(false);
+
+                    return $this->redirect(['disbursement/processing', 'id' => $dv->id]);
+                }
+
+                if (\Yii::$app->user->can('indexer'))
+                {
+                    $check_data = TransactionStatus::find()->where(['dv_no' => $dv_no])
+                                    ->andWhere(['process' => 'Indexing'])
+                                    ->one();
+
+                    $model = $check_data == null ? new TransactionStatus() : $check_data;
+
+                    $model->dv_no = $dv_no;
+                    $model->process = 'Indexing';
+                    $model->employee = Yii::$app->user->identity->fullname;
+
+                    $model->save(false);
+
+                    return $this->redirect(['disbursement/processing', 'id' => $dv->id]);
+                }
+
+                if (\Yii::$app->user->can('lddap_ada'))
+                {
+                    $check_data = TransactionStatus::find()->where(['dv_no' => $dv_no])
+                                    ->andWhere(['process' => 'Preparing ADA'])
+                                    ->one();
+
+                    $model = $check_data == null ? new TransactionStatus() : $check_data;
+
+                    $model->dv_no = $dv_no;
+                    $model->process = 'Preparing ADA';
+                    $model->employee = Yii::$app->user->identity->fullname;
+
+                    $model->save(false);
+
+                    return $this->redirect(['disbursement/processing', 'id' => $dv->id]);
+                }
+
+                if (\Yii::$app->user->can('releaser'))
+                {
+                    $check_data = TransactionStatus::find()->where(['dv_no' => $dv_no])
+                                    ->andWhere(['process' => 'Releasing'])
+                                    ->one();
+
+                    $model = $check_data == null ? new TransactionStatus() : $check_data;
+
+                    $model->dv_no = $dv_no;
+                    $model->process = 'Releasing';
+                    $model->employee = Yii::$app->user->identity->fullname;
+
+                    $model->save(false);
+
+                    return $this->redirect(['disbursement/processing', 'id' => $dv->id]);
                 }
             }
             else

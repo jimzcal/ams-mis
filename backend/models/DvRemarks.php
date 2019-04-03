@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use dektrium\user\models\User;
 
 /**
  * This is the model class for table "dv_remarks".
@@ -31,10 +32,17 @@ class DvRemarks extends \yii\db\ActiveRecord
     {
         return [
             [['date'], 'safe'],
-            [['region', 'dv_no', 'fullname', 'remarks'], 'required'],
+            [['region', 'dv_no', 'employee_id', 'remarks'], 'required'],
             [['remarks'], 'string'],
-            [['region', 'dv_no', 'fullname'], 'string', 'max' => 100],
+            [['region', 'dv_no', 'employee_id'], 'string', 'max' => 100],
         ];
+    }
+
+    public function getName()
+    {
+        $data = User::find()->where(['id' => $this->employee_id])->one();
+
+        return $data;
     }
 
     /**
@@ -47,7 +55,7 @@ class DvRemarks extends \yii\db\ActiveRecord
             'date' => 'Date',
             'region' => 'Region',
             'dv_no' => 'Dv No',
-            'fullname' => 'Fullname',
+            'employee_id' => 'Employee',
             'remarks' => 'Remarks',
         ];
     }

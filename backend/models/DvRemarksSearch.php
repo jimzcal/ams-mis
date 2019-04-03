@@ -19,7 +19,7 @@ class DvRemarksSearch extends DvRemarks
     {
         return [
             [['id'], 'integer'],
-            [['date', 'region', 'dv_no', 'fullname', 'remarks'], 'safe'],
+            [['date', 'region', 'dv_no', 'employee_id', 'remarks'], 'safe'],
         ];
     }
 
@@ -65,7 +65,7 @@ class DvRemarksSearch extends DvRemarks
 
         $query->andFilterWhere(['like', 'region', $this->region])
             ->andFilterWhere(['like', 'dv_no', $this->dv_no])
-            ->andFilterWhere(['like', 'fullname', $this->fullname])
+            ->andFilterWhere(['like', 'employee_id', $this->employee_id])
             ->andFilterWhere(['like', 'remarks', $this->remarks]);
 
         return $dataProvider;

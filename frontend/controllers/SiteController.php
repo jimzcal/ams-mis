@@ -138,9 +138,9 @@ class SiteController extends Controller
     {
         $model = Disbursement::find()->where(['id' => $id])->one();
 
-        $dv_attachments = explode(',', $model->attachments);
+        $dv_attachments = explode('*', $model->attachments);
         $requirements = Transaction::find()->where(['id' => $model->transaction])->one();
-        $required = explode(',', $requirements->requirements);
+        $required = explode('*', $requirements->requirements);
         $lacking = array_diff($required, $dv_attachments);
 
         $remarks = DvRemarks::find()->where(['dv_no' => $model->dv_no])

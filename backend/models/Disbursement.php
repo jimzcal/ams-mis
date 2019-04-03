@@ -34,6 +34,8 @@ class Disbursement extends \yii\db\ActiveRecord
         return 'disbursement';
     }
 
+    public $remarks;
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +44,7 @@ class Disbursement extends \yii\db\ActiveRecord
         return [
             [['date', 'dv_no', 'payee', 'fund_cluster', 'rc_code', 'transaction', 'particulars', 'gross_amount', 'status'], 'required'],
             [['date'], 'safe'],
-            [['particulars', 'attachments'], 'string'],
+            [['particulars', 'attachments', 'remarks'], 'string'],
             [['gross_amount', 'net_amount'], 'number'],
             [['region', 'dv_no', 'payee', 'fund_cluster', 'rc_code', 'transaction', 'status'], 'string', 'max' => 100],
         ];
@@ -51,7 +53,7 @@ class Disbursement extends \yii\db\ActiveRecord
     public function getStatus($dv_no, $process)
     {
         $data = TransactionStatus::find()->where(['dv_no' => $dv_no])
-                    ->andWhere(['region' => Yii::$app->user->identity->region])
+                    //->andWhere(['region' => Yii::$app->user->identity->region])
                     ->andWhere(['process' => $process])
                     ->one();
 
