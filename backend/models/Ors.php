@@ -11,7 +11,7 @@ use Yii;
  * @property string $date
  * @property string $region
  * @property string $sub_office
- * @property string $appropriation_class
+ * @property string $general_appropriation
  * @property string $ors_no
  * @property string $particulars
  * @property string $ors_class
@@ -41,14 +41,11 @@ class Ors extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'obligation', 'dv_no'], 'required'],
+            [['date', 'region', 'general_appropriation', 'ors_no', 'particulars', 'mfo_pap', 'rc', 'object_code', 'obligation'], 'required'],
             [['date'], 'safe'],
             [['particulars'], 'string'],
             [['obligation'], 'number'],
-            [['region', 'sub_office', 'appropriation_class', 'ors_no', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'dv_no'], 'string', 'max' => 100],
-            [['funding_source'], 'string', 'max' => 8],
-            [['ors_year'], 'string', 'max' => 4],
-            [['ors_class', 'ors_month'], 'string', 'max' => 2],
+            [['region', 'sub_office', 'general_appropriation', 'ors_no', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code'], 'string', 'max' => 100],
         ];
     }
 
@@ -60,21 +57,20 @@ class Ors extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'date' => 'Date',
-            'region' => 'Region',
+            'region' => 'Operating Unit',
             'sub_office' => 'Sub-Office',
-            'appropriation_class' => 'Appropriation',
-            'ors_no' => 'ORS No',
+            'general_appropriation' => 'General Appropriation',
+            'ors_no' => 'Ors No',
             'particulars' => 'Particulars',
-            'ors_class' => 'Class',
+            'ors_class' => 'ORS Class',
             'funding_source' => 'Funding Source',
-            'ors_year' => 'Year',
-            'ors_month' => 'Month',
-            'ors_serial' => 'Serial',
-            'mfo_pap' => 'MFO-PAP',
-            'rc' => 'Responsibility Center',
+            'ors_year' => 'ORS Year',
+            'ors_month' => 'ORS Month',
+            'ors_serial' => 'ORS Serial',
+            'mfo_pap' => 'MFO/PAP',
+            'rc' => 'RC',
             'object_code' => 'Object Code',
-            'obligation' => 'Obligation',
-            'dv_no' => 'Dv No',
+            'obligation' => 'Obligation Amount',
         ];
     }
 

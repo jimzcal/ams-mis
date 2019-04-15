@@ -5,6 +5,9 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use dosamigos\ckeditor\CKEditor;
 use yii\widgets\DetailView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use backend\models\Disbursement;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\PurchaseOrder */
@@ -51,7 +54,17 @@ $this->title = $model->po_no;
                 </tr>
                 <tr>
                     <td>
-                        <?= $form->field($new_model, 'dv_no')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase;']) ?>
+                        <?= $form->field($model, 'dv_no')->widget(Select2::classname(), [
+                            'data' => ArrayHelper::map(Disbursement::find()->all(),'dv_no', 'dv_no'),
+                            'options' => ['placeholder' => 'Select DV No.', 
+                            'multiple' => false],
+                            // 'pluginOptions' => [
+                            //     'tags' => false,
+                            //     'tokenSeparators' => [';'],
+                            // ],
+                        ]);
+                        ?>
+
                         <?= $form->field($new_model, 'po_no')->hiddenInput(['value' => $model->po_no])->label(false) ?>
                     </td>
                 </tr>

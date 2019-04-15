@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'sub_office') ?>
 
-    <?= $form->field($model, 'appropriation_class')->dropdownList(['Current' => 'Current', 'Supplemental' => 'Supplemental', 'Continuing' => 'Continuing']) ?>
+    <?= $form->field($model, 'general_appropriation')->dropdownList(['2019' => 'GAA 2019', '2018' => 'GAA 2018', '2017' => 'GAA 2017']) ?>
 
     <?php echo $form->field($model, 'ors_no') ?>
 

@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "operating_unit".
  *
  * @property int $id
+ * @property string $mother_unit
  * @property string $abbreviation
  * @property string $description
  * @property string $status
@@ -40,7 +41,7 @@ class OperatingUnit extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'abbreviation' => 'Abbreviation',
+            'abbreviation' => 'Operating Unit',
             'description' => 'Description',
             'status' => 'Status',
         ];

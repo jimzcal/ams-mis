@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use dosamigos\ckeditor\CKEditor;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\PurchaseOrder */
@@ -13,8 +14,14 @@ use dosamigos\ckeditor\CKEditor;
     #tbl-po td{
         padding-right: 3px;
     }
-</style>
 
+    #attachments{
+        display: <?= $model->attachments != null ? 'block;' : 'none'; ?>
+    }
+</style>
+<?php
+    $data = ["Inspection & Acceptance Report" => "Inspection & Acceptance Report", "Delivery Receipt" => "Delivery Receipt", "Approved PO" => "Approved PO", "Sales Invoice" => "Sales Invoice"];
+?>
 <div class="purchase-order-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -85,9 +92,25 @@ use dosamigos\ckeditor\CKEditor;
                 <?= $form->field($model, 'total_amount')->textInput(['value' => $model->total_amount == null ? 0.00 : $model->total_amount, 'style' => 'text-align: right; font-weight: bold;']) ?>
             </td>
         </tr>
+        <tr id="attachments">
+            <td colspan="3">
+                <?= $form->field($model, 'attachments[]')->widget(Select2::classname(), [
+                        'data' => $data,
+                        'options' => [
+                            'multiple' => true,
+                            'value' => $model->attachments != null ? explode(';', $model->attachments) : '',
+                        ],
+                            'pluginOptions' => [
+                                'tags' => true,
+                                'tokenSeparators' => [';'],
+                            ],
+                    ]);
+                ?>
+            </td>
+        </tr>
         <tr>
             <td colspan="3">
-                <?= $form->field($model, 'status')->dropdownList(['Payable' => 'Payable', 'Paid' => 'Paid']) ?>
+                <?= $form->field($model, 'status')->dropdownList(['Received' => 'Received', 'Signed' => 'Signed', 'Return to End-User' => 'Return to End-User', 'Approved' => 'Approved', 'Payable' => 'Payable', 'Disbursed' => 'Disbursed', 'Paid' => 'Paid']) ?>
             </td>
         </tr>
     </table>
@@ -97,5 +120,18 @@ use dosamigos\ckeditor\CKEditor;
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>
+
+<script>
+window.onload = function()
+{
+    $(document).on("change", "select[id='purchaseorder-status']", function () { 
+        // alert($(this).val())
+        // $modal = $('#newModal');
+        if($(this).val() == 'Approved'){
+            // $modal.modal('show');
+            $('#attachments').show();
+        }
+    });
+}
+</script>

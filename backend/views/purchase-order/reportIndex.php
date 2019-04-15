@@ -64,7 +64,7 @@ $this->title = 'Generate Report for PO';
                 <?= $form->field($model, 'fund_cluster')->dropdownList(['01' => '01 - Regular Agency Fund', '02' => '02 - Foreign Assisted Project Fund', '103' => '103 - Special Account (Locally Funded)', '04' => '04 - Special Account (Foreign Assited)'])->label(false) ?>
             </td>
             <td>
-                <?= $form->field($model, 'status')->dropdownList(['Payable' => 'Payable', 'Paid' => 'Paid'])->label(false) ?>
+                <?= $form->field($model, 'status')->dropdownList(['Received' => 'Received', 'Signed' => 'Signed', 'Return to End-User' => 'Return to End-User', 'Approved' => 'Approved', 'Payable' => 'Payable', 'Disbursed' => 'Disbursed', 'Paid' => 'Paid'])->label(false) ?>
             </td>
             <td>
                 <div class="form-group">

@@ -94,14 +94,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
-        <?php if ($module->enableConfirmation): ?>
+        <!-- <?php// if ($module->enableConfirmation): ?>
             <p class="text-center">
-                <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
+                <?php// Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
             </p>
-        <?php endif ?>
+        <?php// endif ?> -->
        <!--  <?php// if ($module->enableRegistration): ?> -->
-            <p class="text-center">
-                <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
+            <p class="text-center" style="color: #fff; text-decoration: none;">
+                <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register', 'style' => 'color: #fff; text-decoration: none;']) ?>
             </p>
         <!-- <?php// endif ?> -->
         <?= Connect::widget([

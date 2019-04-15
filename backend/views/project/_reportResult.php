@@ -76,6 +76,11 @@ $unliquidated_total = [];
 		vertical-align: middle;
 		border: solid 1px;
 	}
+
+	@page { 
+      size: 13in 8.5in landscape; 
+      margin: .5cm;
+    }
 </style>
 <div class="ors-view">
     <div style="min-width: 100%; padding: 5px; background-color: #fff; min-height: 500px; margin-left: auto;  margin-right: auto; margin-top: 5px; overflow: auto;">

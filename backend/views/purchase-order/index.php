@@ -38,7 +38,7 @@ $this->title = 'Purchase Orders';
             </div>
         </div>
         <div class="col-md-9">
-            <div style="background-color: #fff; padding: 5px;">
+            <div style="background-color: #fff; padding: 5px; font-size: 12px">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 //'filterModel' => $searchModel,
@@ -55,7 +55,7 @@ $this->title = 'Purchase Orders';
                     [
                         'attribute' => 'description',
                         'format' => 'Html',
-                        'options' => ['class' => 'content', 'style' => 'width: 340px;'],
+                        'contentOptions' => ['style' => 'width: 340px; word-wrap: break-word; text-align: justify; line-height: .5'],
                         'value' => function($data)
                         {
                             return $data->description;

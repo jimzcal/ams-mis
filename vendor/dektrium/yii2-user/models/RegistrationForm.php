@@ -125,7 +125,7 @@ class RegistrationForm extends Model
             'info',
             Yii::t(
                 'user',
-                'Your account has been created but subject for approval by the Accounting Head. A message with further instructions has been sent to your email.'
+                'Your account has been created but subject for approval by the Accounting Head. Call the Accounting Division - Central Office for immediate approval.'
             )
         );
 

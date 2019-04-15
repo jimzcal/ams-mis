@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use backend\models\Project;
 use backend\models\ProjectSearch;
 use yii\web\Controller;
@@ -11,6 +12,7 @@ use yii\filters\VerbFilter;
 use backend\models\Obligated;
 use backend\models\DisbursedDv;
 use backend\models\Liquidation;
+use backend\models\ImplementingAgency;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -23,6 +25,20 @@ class ProjectController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'delete', 'update', 'obligate', 'disburse', 'liquidate', 'report', 'agencies'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -270,6 +286,30 @@ class ProjectController extends Controller
         return $this->render('reportIndex', [
             'model' => $model,
         ]);
+    }
+
+    public function actionAgencies($id)
+    {
+        $countAgencies = ImplementingAgency::find()
+            ->where(['id' => $id])
+            ->count();
+
+        $agencies = ImplementingAgency::find()
+            ->where(['id' => $id])
+            ->all();
+
+        if($countAgencies > 0)
+        {
+                foreach($agencies as $agency)
+                {
+                     echo "<option value='".$agency->id."'>".$agency->implementing_agency."</option>";
+                }
+        }
+
+        else
+            {
+                echo "<option> - </option>";
+            }
     }
 
     /**

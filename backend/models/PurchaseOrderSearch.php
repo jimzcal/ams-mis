@@ -19,7 +19,7 @@ class PurchaseOrderSearch extends PurchaseOrder
     {
         return [
             [['id', 'payment_term'], 'integer'],
-            [['date', 'po_no', 'supplier', 'tin', 'mode_procurement', 'description', 'date_recived', 'fund_cluster', 'status'], 'safe'],
+            [['date', 'po_no', 'supplier', 'tin', 'mode_procurement', 'description', 'date_recived', 'fund_cluster', 'status', 'attachments'], 'safe'],
             [['total_amount'], 'number'],
         ];
     }
@@ -70,6 +70,7 @@ class PurchaseOrderSearch extends PurchaseOrder
         $query->andFilterWhere(['like', 'po_no', $this->po_no])
             ->andFilterWhere(['like', 'supplier', $this->supplier])
             ->andFilterWhere(['like', 'tin', $this->tin])
+            ->andFilterWhere(['like', 'attachments', $this->attachments])
             ->andFilterWhere(['like', 'mode_procurement', $this->mode_procurement])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'fund_cluster', $this->fund_cluster])

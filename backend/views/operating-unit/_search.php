@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'abbreviation') ?>
+    <?= $form->field($model, 'abbreviation')->textInput()->label('Operating Unit') ?>
 
     <?= $form->field($model, 'description') ?>
 

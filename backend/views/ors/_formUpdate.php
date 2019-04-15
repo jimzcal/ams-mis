@@ -34,49 +34,48 @@ use kartik\date\DatePicker;
         <div class="col-md-9">
             <table style="width: 100%; margin-right: auto; margin-left: auto; display: block;" id="tbl">
                 <tr>
-                    <td style="width: 50%;">
-                        <?= $form->field($model, 'region')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->region, 'readOnly' => true]) ?>
-                    </td>
-                    <td style="width: 30%;">
-                        <?= $form->field($model, 'sub_office')->textInput(['maxlength' => true]) ?>
+                    <td colspan="2" style="width: 80%;">
+                        <?= $form->field($model, 'region')->textInput(['readOnly' => true]) ?>
                     </td>
                     <td>
                         <?= $form->field($model, 'date')->widget(DatePicker::classname(), [
                             'options' => [
                                 // 'class' => 'new-textfield',
                                 'placeholder' => 'Date',
-                                // 'autofocus' => 'autofocus',
+                                'value' => date('Y-m-d'),
                             ],
 
                             'pluginOptions' => [
-                            'autoclose'=>true,
+                            'autoclose' => true,
                             'todayHighlight' => true,
                             'format' => 'yyyy-m-d'
                                 ]
                         ]); ?>
                     </td>
-                </tr>
                 <tr>
                     <td colspan="3">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td>
-                                    <?= $form->field($model, 'ors_class')->textInput(['maxlength' => true]) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($model, 'funding_source')->textInput(['maxlength' => true]) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($model, 'ors_year')->textInput(['maxlength' => true]) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($model, 'ors_month')->textInput(['maxlength' => true]) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($model, 'ors_serial')->textInput(['maxlength' => true]) ?>
-                                </td>
-                            </tr>
-                        </table>
+                        <label>ORS No.</label>
+                        <div style="padding: 15px 5px 5px 5px; border: solid 1px gray; border-radius: 5px; margin-bottom: 5px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>
+                                        <?= $form->field($model, 'ors_class')->textInput(['maxlength' => true])->label(false) ?>
+                                    </td>
+                                    <td>
+                                        <?= $form->field($model, 'funding_source')->textInput(['maxlength' => true, 'placeholder' => 'Funding Source'])->label(false) ?>
+                                    </td>
+                                    <td>
+                                        <?= $form->field($model, 'ors_year')->textInput(['maxlength' => true, 'placeholder' => 'Year', 'value' => date('Y')])->label(false) ?>
+                                    </td>
+                                    <td>
+                                        <?= $form->field($model, 'ors_month')->textInput(['maxlength' => true, 'placeholder' => 'Month', 'value' => date('m')])->label(false) ?>
+                                    </td>
+                                    <td>
+                                        <?= $form->field($model, 'ors_serial')->textInput(['maxlength' => true, 'placeholder' => 'Series'])->label(false) ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -84,7 +83,7 @@ use kartik\date\DatePicker;
                         <?= $form->field($model, 'particulars')->textarea(['rows' => 10]) ?>
                     </td>
                     <td style="vertical-align: top;">
-                        <?= $form->field($model, 'appropriation_class')->dropdownList(['Current' => 'Current', 'Supplemental' => 'Supplemental', 'Continuing' => 'Continuing'])->label('Appropriation Type') ?>
+                        <?= $form->field($model, 'general_appropriation')->dropdownList(['2019' => 'GAA 2019', '2018' => 'GAA 2018', '2017' => 'GAA 2017'])->label('General Appropriation Act') ?>
                     </td>
                 </tr>
                 <tr>

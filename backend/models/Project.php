@@ -41,7 +41,7 @@ class Project extends \yii\db\ActiveRecord
         return [
             [['region', 'sub_office', 'title', 'implementing_agency', 'focal_person', 'ors_no'], 'required'],
             [['date', 'ors_no', 'appropriation_class'], 'safe'],
-            [['region', 'sub_office', 'focal_person', 'status'], 'string', 'max' => 100],
+            [['region', 'sub_office', 'focal_person', 'status', 'national_agency'], 'string', 'max' => 100],
             [['title', 'implementing_agency'], 'string', 'max' => 200],
         ];
     }
@@ -259,6 +259,7 @@ class Project extends \yii\db\ActiveRecord
             'sub_office' => 'Sub Office',
             'date' => 'Date',
             'title' => 'Project Title',
+            'national_agency' => 'National Agency',
             'implementing_agency' => 'Implementing Agency',
             'focal_person' => 'Focal Person',
             'ors_no' => 'ORS No',

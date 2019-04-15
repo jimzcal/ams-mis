@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\OperatingUnit;
+use yii\filters\AccessControl;
 use backend\models\OperatingUnitSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -20,6 +21,20 @@ class OperatingUnitController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'delete', 'update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

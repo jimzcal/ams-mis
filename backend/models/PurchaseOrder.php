@@ -30,7 +30,7 @@ class PurchaseOrder extends \yii\db\ActiveRecord
         return 'purchase_order';
     }
 
-    public $date_from, $date_to;
+    public $date_from, $date_to, $dv_no;
 
     /**
      * {@inheritdoc}
@@ -39,11 +39,11 @@ class PurchaseOrder extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'po_no', 'supplier', 'tin', 'mode_procurement', 'payment_term', 'description', 'total_amount', 'date_recived', 'fund_cluster', 'status'], 'required'],
-            [['date', 'date_recived', 'date_from', 'date_to'], 'safe'],
+            [['date', 'date_recived', 'date_from', 'date_to', 'attachments'], 'safe'],
             [['payment_term'], 'integer'],
             [['description'], 'string'],
             [['total_amount'], 'number'],
-            [['po_no', 'supplier', 'tin', 'mode_procurement', 'fund_cluster', 'status'], 'string', 'max' => 100],
+            [['po_no', 'supplier', 'tin', 'mode_procurement', 'fund_cluster', 'status', 'dv_no'], 'string', 'max' => 100],
         ];
     }
 
@@ -58,10 +58,11 @@ class PurchaseOrder extends \yii\db\ActiveRecord
             'po_no' => 'PO No',
             'supplier' => 'Supplier',
             'tin' => 'TIN',
+            'attachments' => 'Attachments',
             'mode_procurement' => 'Mode of Procurement',
             'payment_term' => 'Payment Term (days)',
             'description' => 'Description',
-            'total_amount' => 'Total Amount',
+            'total_amount' => 'Amount',
             'date_recived' => 'Date Received',
             'fund_cluster' => 'Fund Cluster',
             'status' => 'Status',

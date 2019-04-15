@@ -19,7 +19,7 @@ class ProjectSearch extends Project
     {
         return [
             [['id'], 'integer'],
-            [['region', 'sub_office', 'date', 'title', 'implementing_agency', 'focal_person', 'ors_no', 'status'], 'safe'],
+            [['region', 'sub_office', 'date', 'title', 'implementing_agency', 'focal_person', 'ors_no', 'status', 'national_agency', 'operating_office'], 'safe'],
         ];
     }
 
@@ -66,6 +66,8 @@ class ProjectSearch extends Project
         $query->andFilterWhere(['like', 'region', $this->region])
             ->andFilterWhere(['like', 'sub_office', $this->sub_office])
             ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'national_agency', $this->national_agency])
+            ->andFilterWhere(['like', 'operating_office', $this->operating_office])
             ->andFilterWhere(['like', 'implementing_agency', $this->implementing_agency])
             ->andFilterWhere(['like', 'focal_person', $this->focal_person])
             ->andFilterWhere(['like', 'ors_no', $this->ors_no])

@@ -11,7 +11,7 @@ $this->title = 'Projects';
 // $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-index">
-    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right;">
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
         <h3>PROJECTS</h3>
     </div>
     <p>

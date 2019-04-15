@@ -13,7 +13,8 @@ use Yii;
  * @property string $sub_office
  * @property int $project_id
  * @property string $ors_no
- * @property string $appropriation_class
+ * @property string $general_appropriation
+ * @property string $appropriation_type
  * @property string $ors_class
  * @property string $funding_source
  * @property string $ors_year
@@ -40,11 +41,11 @@ class Obligated extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'project_id', 'ors_no', 'appropriation_class', 'mfo_pap', 'rc', 'object_code', 'amount'], 'required'],
+            [['date', 'region', 'sub_office', 'project_id', 'ors_no', 'general_appropriation', 'appropriation_type', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code', 'amount'], 'required'],
             [['date'], 'safe'],
             [['project_id'], 'integer'],
             [['amount'], 'number'],
-            [['region', 'sub_office', 'ors_no', 'appropriation_class', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code'], 'string', 'max' => 100],
+            [['region', 'sub_office', 'ors_no', 'general_appropriation', 'appropriation_type', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code'], 'string', 'max' => 100],
         ];
     }
 
@@ -56,18 +57,19 @@ class Obligated extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'date' => 'Date',
-            'region' => 'Region',
-            'sub_office' => 'Sub Office',
+            'region' => 'Operating Unit',
+            'sub_office' => 'Sub-Office',
             'project_id' => 'Project ID',
-            'ors_no' => 'Ors No',
-            'appropriation_class' => 'Appropriation Class',
-            'ors_class' => 'Ors Class',
+            'ors_no' => 'ORS No',
+            'general_appropriation' => 'GAA',
+            'appropriation_type' => 'Appropriation Type',
+            'ors_class' => 'ORS Class',
             'funding_source' => 'Funding Source',
-            'ors_year' => 'Ors Year',
-            'ors_month' => 'Ors Month',
-            'ors_serial' => 'Ors Serial',
-            'mfo_pap' => 'Mfo Pap',
-            'rc' => 'Rc',
+            'ors_year' => 'ORS Year',
+            'ors_month' => 'ORS Month',
+            'ors_serial' => 'ORS Serial',
+            'mfo_pap' => 'MFO/PAP',
+            'rc' => 'RC',
             'object_code' => 'Object Code',
             'amount' => 'Amount',
         ];

@@ -7,6 +7,10 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use backend\models\Ors;
 use backend\models\Project;
+use backend\models\OperatingUnit;
+use backend\models\SubOu;
+use backend\models\NationalAgency;
+use backend\models\ImplementingAgency;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Project */
@@ -26,19 +30,18 @@ use backend\models\Project;
     <table style="width: 100%;" id="tbl">
         <tr>
             <td style="width: 50%;">
-                <?= $form->field($model, 'region')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->region, 'readOnly' => true]) ?>
+                <?= $form->field($model, 'region')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->region, 'readOnly' => true])->label('Region/Operating Unit') ?>
             </td>
             <td style="width: 30%">
                 <?= $form->field($model, 'sub_office')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map(Project::find()->groupBy(['sub_office'])
-                            ->all(),'sub_office', 'sub_office'),
-                    'options' => ['placeholder' => 'Select Sub-office', 
-                    'multiple' => false],
-                    'pluginOptions' => [
-                        'tags' => true,
-                        'tokenSeparators' => [';'],
-                    ],
-                ]);
+                    'data' => ArrayHelper::map(SubOu::find()->where(['status' => 'Active'])
+                            ->andWhere(['mother_unit' => Yii::$app->user->identity->region])
+                            ->all(),'sub_ou', 'description'),
+                    'options' => [
+                        'prompt' => 'Select Su Operating Unit',
+                        'multiple' => false,
+                        ],
+                    ]);
                 ?>
             </td>
             <td>
@@ -64,11 +67,32 @@ use backend\models\Project;
         </tr>
         <tr>
             <td colspan="3">
+                <?= $form->field($model, 'national_agency')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map(NationalAgency::find()
+                            ->all(),'id', 'agency'),
+                    'options' => [
+                        'prompt' => 'Select National Agency', 
+                        'multiple' => false,
+                        'onchange'=>'
+                             $.post("agencies?id='.'"+$(this).val(),function(data){
+
+                                $("select#project-implementing_agency").html(data);
+
+                            });'
+                    ],
+                    ]);
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
                 <?= $form->field($model, 'implementing_agency')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map(Project::find()->groupBy(['implementing_agency'])
-                            ->all(),'implementing_agency', 'implementing_agency'),
-                    'options' => ['placeholder' => 'Select or add Implementing Agency', 
-                    'multiple' => false],
+                    'data' => ArrayHelper::map(ImplementingAgency::find()
+                            ->all(),'id', 'implementing_agency'),
+                    'options' => [
+                        'prompt' => 'Select or add Implementing Agency', 
+                        'multiple' => false,
+                        ],
                     'pluginOptions' => [
                         'tags' => true,
                         'tokenSeparators' => [';'],

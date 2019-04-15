@@ -20,6 +20,12 @@ $this->title = 'Generate Report for PO';
     #tbl-po td{
         font-size: 11px;
     }
+
+    @page { 
+      size: 13in 8.5in landscape; 
+      margin: .5cm;
+    }
+    
 </style>
 <div class="purchase-order-view">
     <br>

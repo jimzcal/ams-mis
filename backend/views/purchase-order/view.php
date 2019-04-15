@@ -40,6 +40,7 @@ $this->title = $model->po_no;
                         'method' => 'post',
                     ],
                 ]) ?>
+                <span class = 'btn btn-success' data-toggle="modal" data-target="#newModal" style="width: 100%; display: inline-block; margin-bottom: 5px;"> View PO Logs </span>
             </div>
         </div>
         <div class="col-md-9">
@@ -49,6 +50,7 @@ $this->title = $model->po_no;
                     'attributes' => [
                         //'id',
                         'date',
+                        'date_recived',
                         'po_no',
                         'supplier',
                         'tin',
@@ -70,13 +72,44 @@ $this->title = $model->po_no;
                             {
                                 return number_format($val->total_amount, 2);
                             }
-                        ], 
-                        'date_recived',
+                        ],
+                        'attachments',
                         'fund_cluster',
                         'status',
                     ],
                 ]) ?>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="newModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title">PO Log History</h4>
+      </div>
+      <div class="modal-body">
+            <div class="news-content-modal">
+                <table class="table table-striped table-condensed">
+                    <tr>
+                        <th style="text-align: center;">Date</th>
+                        <th style="text-align: center;">Process</th>
+                        <th style="text-align: center;">Employee</th>
+                    </tr>
+                    <?php foreach ($po_model as $key => $value) : ?>
+                    <tr>
+                        <td style="text-align: center;"><?= $value->date ?></td>
+                        <td style="text-align: center;"><?= $value->process ?></td>
+                        <td style="text-align: center;">
+                            <?= $value->employee ?>
+                        </td>
+                    </tr>
+                    <?php endforeach ?>
+                </table>
+            </div>
+      </div>
+    </div>
     </div>
 </div>

@@ -19,7 +19,7 @@ class OrsSearch extends Ors
     {
         return [
             [['id'], 'integer'],
-            [['date', 'region', 'sub_office', 'appropriation_class', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code'], 'safe'],
+            [['date', 'region', 'sub_office', 'general_appropriation', 'ors_no', 'particulars', 'ors_class', 'funding_source', 'ors_year', 'ors_month', 'ors_serial', 'mfo_pap', 'rc', 'object_code'], 'safe'],
             [['obligation'], 'number'],
         ];
     }
@@ -67,7 +67,7 @@ class OrsSearch extends Ors
 
         $query->andFilterWhere(['like', 'region', $this->region])
             ->andFilterWhere(['like', 'sub_office', $this->sub_office])
-            ->andFilterWhere(['like', 'appropriation_class', $this->appropriation_class])
+            ->andFilterWhere(['like', 'general_appropriation', $this->general_appropriation])
             ->andFilterWhere(['like', 'ors_no', $this->ors_no])
             ->andFilterWhere(['like', 'particulars', $this->particulars])
             ->andFilterWhere(['like', 'ors_class', $this->ors_class])

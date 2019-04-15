@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use backend\models\Ors;
 use backend\models\OrsSearch;
 use yii\web\Controller;
@@ -20,6 +21,20 @@ class OrsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'delete', 'update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -74,8 +89,8 @@ class OrsController extends Controller
 
                 $new_model->date = $model->date;
                 $new_model->region = $model->region;
-                $new_model->sub_office = $model->sub_office;
-                $new_model->appropriation_class = $model->appropriation_class;
+                // $new_model->sub_office = $model->sub_office;
+                $new_model->general_appropriation = $model->general_appropriation;
                 $new_model->ors_no = $model->ors_class.'-'.$model->funding_source.'-'.$model->ors_year.'-'.$model->ors_month.'-'.$model->ors_serial;
                 $new_model->ors_class = $model->ors_class;
                 $new_model->particulars = $model->particulars;
@@ -120,8 +135,8 @@ class OrsController extends Controller
 
                 $new_model->date = $model->date;
                 $new_model->region = $model->region;
-                $new_model->sub_office = $model->sub_office;
-                $new_model->appropriation_class = $model->appropriation_class;
+                //$new_model->sub_office = $model->sub_office;
+                $new_model->general_appropriation = $model->general_appropriation;
                 $new_model->ors_no = $model->ors_class.'-'.$model->funding_source.'-'.$model->ors_year.'-'.$model->ors_month.'-'.$model->ors_serial;
                 $new_model->ors_class = $model->ors_class;
                 $new_model->particulars = $model->particulars;

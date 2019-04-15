@@ -21,14 +21,20 @@ $this->title = 'Generate Report for PO';
     #tbl-po td{
         font-size: 11px;
     }
+
+    @page { 
+      size: 13in 8.5in landscape; 
+      margin: .5cm;
+    }
+
 </style>
 <div class="purchase-order-view">
     <br>
     <div style="background-color: #fff; padding: 5px;">
       <table style="width: 40%;">
         <tr>
-          <td rowspan="5" style="width: 30%">
-            
+          <td rowspan="5" style="width: 25%; vertical-align: middle; text-align: center;">
+            <?= Html::img('@web/images/DA_logo.png', ['alt'=>'ams-icon', 'style' => 'width: 75%;']);?>
           </td>
           <td style="font-size: 11px;">Republic of the Philippines</td>
         </tr>
@@ -60,8 +66,8 @@ $this->title = 'Generate Report for PO';
                 <th colspan="7">REMARKS</th>
             </tr>
             <tr>
+              <th>Received</th>
               <th>Release</th>
-              <th>Out</th>
               <th>In</th>
               <th>Out</th>
               <th>In</th>
@@ -72,18 +78,20 @@ $this->title = 'Generate Report for PO';
            <tr>
                <td><?= $value->date ?></td>
                <td><?= $value->dv_no ?></td>
-               <td><?= $value->payee ?></td>
+               <td style="width: 15%"><?= $value->payee ?></td>
                <td style="width: 25%;"><?= $value->particulars ?></td>
                <td style="font-weight: bold; text-align: right;">
                   <?= number_format($value->gross_amount, 2) ?>
                </td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
+               <td style="width: 10%; font-size: 10px;">
+                 <?= $value->getStatus($value->dv_no, 'Receiving')->date ?>
+               </td>
+               <td style="width: 5%;"></td>
+               <td style="width: 5%;"></td>
+               <td style="width: 5%;"></td>
+               <td style="width: 5%;"></td>
+               <td style="width: 5%;"></td>
+               <td style="width: 5%;"></td>
            </tr>
        <?php endforeach ?>
        </table>

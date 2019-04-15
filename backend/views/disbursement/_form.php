@@ -26,7 +26,7 @@ use backend\models\Transaction;
                      <?= $form->field($model, 'payee')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase;']) ?>
                 </td>
                 <td style="width: 20%;">
-                    <?= $form->field($model, 'dv_no')->textInput(['value' => $model->getDvno()]) ?>
+                    <?= $form->field($model, 'dv_no')->textInput(['value' => $model->dv_no == null ? $model->getDvno() : '']) ?>
                 </td>
                 <td style="width: 30%;">
                     <?= $form->field($model, 'date')->widget(DatePicker::classname(), [

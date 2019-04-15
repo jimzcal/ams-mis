@@ -15,15 +15,19 @@ $this->title = $model->dv_no;
     .locator{
         margin-bottom: 10px;
     }
+    @page {
+        size: 8in 6.5in;
+        margin: .5px;
+    }
 </style>
 <div class="disbursement-view">
 
-    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;" id="no-print">
         <h3>DISBURSEMENT VOUCHER</h3>
     </div>
     <br>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" id="no-print">
             <div style="width: 100%; min-height: 460px; padding: 10px; background-color: #0099cc;">
                 <div style="background-color: #ccffff; width: 100%; padding: 12px; color: #595959; border: solid 1px #00ace6;">
                     <span class="fa fa-map-signs" style="color: green; text-shadow: 2px 2px 2px #fff; font-size: 20px;"></span> DV FLOW INDICATOR
@@ -173,18 +177,18 @@ $this->title = $model->dv_no;
                             <td style="width: 7%; opacity: <?= $model->getStatus($model->dv_no, 'Client') != null ? 1 : .5 ; ?>">
                                 <span class="fa fa-map-marker" style="color: #fff; font-size: 22px; text-shadow: 2px 2px 2px 3px green"></span>
                             </td>
-                            <td style="width: 40%; vertical-align: middle; padding-right: 5px; opacity: <?= $model->getStatus($model->dv_no, 'Client') != null ? 1 : .5 ; ?>; font-weight: bold;">
-                                 Client
+                            <td style="width: 40%; vertical-align: middle; padding-right: 5px; opacity: <?= $model->getStatus($model->dv_no, 'Releasing') != null ? 1 : .5 ; ?>; font-weight: bold;">
+                                 Releasing
                             </td>
                             <td>
-                                <?= $model->getStatus($model->dv_no, 'Client') != null ? $model->getStatus($model->dv_no, 'Client')->employee : ''; ?>
+                                <?= $model->getStatus($model->dv_no, 'Releasing') != null ? $model->getStatus($model->dv_no, 'Releasing')->employee : ''; ?>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td>
-                                <?= $model->getStatus($model->dv_no, 'Client') != null ? $model->getStatus($model->dv_no, 'Client')->date : ''; ?>
+                                <?= $model->getStatus($model->dv_no, 'Releasing') != null ? $model->getStatus($model->dv_no, 'Releasing')->date : ''; ?>
                             </td>
                         </tr>
                     </table>

@@ -11,6 +11,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\OperatingUnit;
+use yii\helpers\ArrayHelper;
 
 /**
  * @var yii\web\View $this
@@ -37,32 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
 
                 <?= $form->field($model, 'region')->dropDownList(
-                    [
-                        'NCR' => 'NCR - National Capital Region',
-                        'Central Office' => 'Central Office',
-                        'Region I' => 'Region I - Ilocos Region',
-                        'CAR' => 'CAR - Cordillera Administrative Region',
-                        'Region II' => 'Region II - Cagayan Valley Region',
-                        'Region III' => 'Region III - Central Luzon',
-                        'Region IV-A' => 'Region IV-A : CALABARZON',
-                        'MIMAROPA Region' => 'MIMAROPA Region - Southwestern Tagalog Region',
-                        'Region V' => 'Region V - Bicol Region',
-                        'Region VI' => 'Region VI - Western Visayas',
-                        'Region VII' => 'Region VII - Central Visayas',
-                        'Region VIII' => 'Region VIII - Estern Visayas',
-                        'Region IX' => 'Region IX - Zamboanga Peninsula',
-                        'Region X' => 'Region X - Northern Mindanoa',
-                        'Region XI' => 'Region XI - Davao Region',
-                        'Region XII' => 'Region XII - SOCCSKSARGEN Region',
-                        'Region XIII' => 'Region XIII - CARAGA Region',
-                        'ARMM' => 'ARMM - Autonomous Region of Muslim Mindanao',
-                    ],
+                    ArrayHelper::map(OperatingUnit::find()->where(['status' => 'Active'])->all(),'abbreviation', 'description'),
                       [
-                          'prompt'=>'Select Region',
-                      ]); 
-                  ?>
+                          'prompt'=>'Select Operating Unit',
+                      ])->label('Operating Unit'); 
+                ?>
 
-                <?= $form->field($model, 'fullname') ?> 
+                <?= $form->field($model, 'fullname')->textInput()->label('Name') ?> 
 
                 <?= $form->field($model, 'email') ?>
 
@@ -77,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
-        <p class="text-center">
+        <p class="text-center" style="color: #fff">
             <?= Html::a(Yii::t('user', 'Already registered? Sign in!'), ['/user/security/login']) ?>
         </p>
     </div>

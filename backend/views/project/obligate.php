@@ -100,7 +100,7 @@ $this->title = 'ORS - '.$model->title;
                         <td style="text-align: center;">
                             <?= $ors->ors_no ?>
                             <?= $form->field($new_model, 'ors_no[]')->hiddenInput(['value' => $ors->ors_no])->label(false) ?>
-                            <?= $form->field($new_model, 'appropriation_class[]')->hiddenInput(['value' => $ors->appropriation_class])->label(false) ?>
+                            <?= $form->field($new_model, 'appropriation_type[]')->hiddenInput()->label(false) ?>
                         </td>
                         <td style="text-align: center;">
                             <?= $ors->rc ?>

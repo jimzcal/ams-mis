@@ -8,15 +8,17 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Operating Units';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="operating-unit-index">
 
-    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right;" id="no-print">
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;" id="no-print">
         <h3>OPERATING UNIT</h3>
     </div>
     <p>
-        <?= Html::a('New OU', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('New Operating Unit', ['create'], ['class' => 'btn btn-success']) ?>
+        <!-- <?php// Html::a('SUB OPERATING UNIT', ['/sub-ou/index'], ['class' => 'btn btn-success']) ?> -->
+        <?= Html::a('Implementing Agency', ['/national-agency/index'], ['class' => 'btn btn-success']) ?>
     </p>
     <br>
     <div class="row">
