@@ -1,20 +1,19 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use common\models\DraftDv;
-use common\models\DraftDvSearch;
+use backend\models\BursLiquidation;
+use backend\models\BursLiquidationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\Transaction;
-
+use backend\models\RegistryBudgetutilization;
 
 /**
- * DraftDvController implements the CRUD actions for DraftDv model.
+ * BursLiquidationController implements the CRUD actions for BursLiquidation model.
  */
-class DraftDvController extends Controller
+class BursLiquidationController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,56 +31,54 @@ class DraftDvController extends Controller
     }
 
     /**
-     * Lists all DraftDv models.
+     * Lists all BursLiquidation models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($project_id)
     {
-        $searchModel = new DraftDvSearch();
+        $searchModel = new BursLiquidationSearch();
+        $searchModel->project_id = $project_id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $model = new BursLiquidation();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->save(false);
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
+            'project_id' => $project_id,
         ]);
     }
 
     /**
-     * Displays a single DraftDv model.
+     * Displays a single BursLiquidation model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $requirements = Transaction::find()->where(['id' => $model->transaction_type])->one();
-        $requirements = explode('*', $requirements->requirements);
-
         return $this->render('view', [
-            'model' => $model,
-            'requirements' => $requirements,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new DraftDv model.
+     * Creates a new BursLiquidation model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new DraftDv();
+        $model = new BursLiquidation();
 
-        if ($model->load(Yii::$app->request->post())) 
-        {
-            $requirements = Transaction::find()->where(['id' => $model->transaction_type])->one();
-            $requirements = explode('*', $requirements->requirements);
-
-            return $this->render('view', [
-                'model' => $model,
-                'requirements' => $requirements,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -90,7 +87,7 @@ class DraftDvController extends Controller
     }
 
     /**
-     * Updates an existing DraftDv model.
+     * Updates an existing BursLiquidation model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -100,22 +97,18 @@ class DraftDvController extends Controller
     {
         $model = $this->findModel($id);
 
-        $data = DraftDv::find()->where(['created_by' => Yii::$app->user->identity->id])
-                ->andWhere(['status' => 'Drafted'])
-                ->all();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'project_id' => $model->project_id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'data' => $data,
+            'project_id' => $model->project_id,
         ]);
     }
 
     /**
-     * Deletes an existing DraftDv model.
+     * Deletes an existing BursLiquidation model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,21 +116,45 @@ class DraftDvController extends Controller
      */
     public function actionDelete($id)
     {
+         $model = $this->findModel($id);
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'project_id' => $model->project_id]);
+    }
+
+    public function actionBurs($burs_no)
+    {
+        // $countBursburs = RegistryBudgetutilization::find()
+        //     ->where(['burs_no' => $burs_no])
+        //     ->count();
+
+        $burs = RegistryBudgetutilization::find()
+                ->where(['burs_no' => $burs_no])
+                ->andWhere(['operating_unit' => Yii::$app->user->identity->region])
+                ->one();
+
+        if($burs != null )
+        {
+                echo $burs->burs_date;
+        }
+
+        else
+        {
+            echo " ";
+        }
     }
 
     /**
-     * Finds the DraftDv model based on its primary key value.
+     * Finds the BursLiquidation model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return DraftDv the loaded model
+     * @return BursLiquidation the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = DraftDv::findOne($id)) !== null) {
+        if (($model = BursLiquidation::findOne($id)) !== null) {
             return $model;
         }
 

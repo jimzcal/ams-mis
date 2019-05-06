@@ -32,6 +32,7 @@ AppAsset::register($this);
     <div class="top-banner" id="no-print">
         <?= Html::a(Html::img('@web/images/citizen_charter.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Citizens Charter']), ["/images/index"]) ?>
         <?= Html::a(Html::img('@web/images/dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Transaction Requirements']), ["/transaction/index"]) ?>
+        <?= Html::a(Html::img('@web/images/transactions.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Draft DV']), ["/draft-dv/create"]) ?>
         <?= Html::a(Html::img('@web/images/search_dv.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Search DV']), ["/site/search"]) ?>
         <?= Html::a(Html::img('@web/images/home.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Go to home']), ["/site/index"]) ?>
     </div>

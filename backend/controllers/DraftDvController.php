@@ -8,7 +8,7 @@ use common\models\DraftDvSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\Transaction;
+use backend\models\transaction;
 
 
 /**
@@ -56,7 +56,7 @@ class DraftDvController extends Controller
     {
         $model = $this->findModel($id);
         $requirements = Transaction::find()->where(['id' => $model->transaction_type])->one();
-        $requirements = explode('*', $requirements->requirements);
+        $requirements = explode(',', $requirements->requirements);
 
         return $this->render('view', [
             'model' => $model,
@@ -73,19 +73,18 @@ class DraftDvController extends Controller
     {
         $model = new DraftDv();
 
-        if ($model->load(Yii::$app->request->post())) 
-        {
-            $requirements = Transaction::find()->where(['id' => $model->transaction_type])->one();
-            $requirements = explode('*', $requirements->requirements);
+        $data = DraftDv::find()->where(['created_by' => Yii::$app->user->identity->id])
+                    ->andWhere(['status' => 'Drafted'])
+                    ->all();
 
-            return $this->render('view', [
-                'model' => $model,
-                'requirements' => $requirements,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'data' => $data,
         ]);
     }
 

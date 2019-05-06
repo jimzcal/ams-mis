@@ -68,6 +68,10 @@ AppAsset::register($this);
                 <?php endif ?>
 
                 <?php if (Yii::$app->user->can('URS Users')) : ?>
+                <?= Html::a(Html::img('@web/images/urs2.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Receive Fund Transfer']), ["/far6-projects/index"]) ?>
+                <?php endif ?>
+
+                <?php if (Yii::$app->user->can('URS Users')) : ?>
                 <?= Html::a(Html::img('@web/images/urs.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Fund Transfer']), ["/projects/index"]) ?>
                 <?php endif ?>
 

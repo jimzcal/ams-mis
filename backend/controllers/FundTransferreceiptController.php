@@ -1,20 +1,19 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use common\models\DraftDv;
-use common\models\DraftDvSearch;
+use backend\models\FundTransferreceipt;
+use backend\models\FundTransferreceiptSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\Transaction;
-
+use backend\models\Far6Projects;
 
 /**
- * DraftDvController implements the CRUD actions for DraftDv model.
+ * FundTransferreceiptController implements the CRUD actions for FundTransferreceipt model.
  */
-class DraftDvController extends Controller
+class FundTransferreceiptController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,56 +31,58 @@ class DraftDvController extends Controller
     }
 
     /**
-     * Lists all DraftDv models.
+     * Lists all FundTransferreceipt models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($project_id)
     {
-        $searchModel = new DraftDvSearch();
+        $searchModel = new FundTransferreceiptSearch();
+        $searchModel->operating_unit = Yii::$app->user->identity->region; 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $project = Far6Projects::find()->where(['id' => $project_id])->one();
+
+        $model = new FundTransferreceipt();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            // $model->ors_no = implode('*', $model->ors_no);
+            $model->save(false);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
+            'project' => $project,
         ]);
     }
 
     /**
-     * Displays a single DraftDv model.
+     * Displays a single FundTransferreceipt model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $requirements = Transaction::find()->where(['id' => $model->transaction_type])->one();
-        $requirements = explode('*', $requirements->requirements);
-
         return $this->render('view', [
-            'model' => $model,
-            'requirements' => $requirements,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new DraftDv model.
+     * Creates a new FundTransferreceipt model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new DraftDv();
+        $model = new FundTransferreceipt();
 
-        if ($model->load(Yii::$app->request->post())) 
-        {
-            $requirements = Transaction::find()->where(['id' => $model->transaction_type])->one();
-            $requirements = explode('*', $requirements->requirements);
-
-            return $this->render('view', [
-                'model' => $model,
-                'requirements' => $requirements,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -90,7 +91,7 @@ class DraftDvController extends Controller
     }
 
     /**
-     * Updates an existing DraftDv model.
+     * Updates an existing FundTransferreceipt model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -100,22 +101,21 @@ class DraftDvController extends Controller
     {
         $model = $this->findModel($id);
 
-        $data = DraftDv::find()->where(['created_by' => Yii::$app->user->identity->id])
-                ->andWhere(['status' => 'Drafted'])
-                ->all();
+        $project = Far6Projects::find()->where(['id' => $model->project_id])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
+            return $this->redirect(['view', 'id' => $model->id, 'project' => $project]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'data' => $data,
+            'project' => $project
         ]);
     }
 
     /**
-     * Deletes an existing DraftDv model.
+     * Deletes an existing FundTransferreceipt model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -129,15 +129,15 @@ class DraftDvController extends Controller
     }
 
     /**
-     * Finds the DraftDv model based on its primary key value.
+     * Finds the FundTransferreceipt model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return DraftDv the loaded model
+     * @return FundTransferreceipt the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = DraftDv::findOne($id)) !== null) {
+        if (($model = FundTransferreceipt::findOne($id)) !== null) {
             return $model;
         }
 
