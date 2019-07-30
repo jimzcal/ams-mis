@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
-use backend\models\Project;
+use backend\models\Projects;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
@@ -52,6 +52,8 @@ $unliquidated_total = [];
 <style type="text/css">
     .report-table{
         border: solid 1px;
+        /*page-break-inside: auto;*/
+        border-collapse: collapse;
     }
 
     .report-th2{
@@ -62,8 +64,12 @@ $unliquidated_total = [];
     }
 
     .report-table td{
-        font-size: 9px;
+        font-size: 8px;
         text-align: center;
+    }
+
+    .report-table th{
+        border: solid 1px;
     }
 
     .report-td1{
@@ -78,6 +84,12 @@ $unliquidated_total = [];
         border-right: solid 1px;
     }
 
+    .report-td4{
+        font-size: 8px;
+        font-style: italic;
+        border-right: solid 1px;
+    }
+
     .report-td{
         border-right: solid 1px;
         padding-bottom: 5px;
@@ -85,7 +97,7 @@ $unliquidated_total = [];
     }
 
     .report-th{
-        font-size: 10px;
+        font-size: 9px;
         text-align: center;
         vertical-align: middle;
         border: solid 1px;
@@ -94,6 +106,11 @@ $unliquidated_total = [];
     @media print{
         .report-table{
             border: solid 1px;
+            width: 100%;
+        }
+
+        #project_title{
+            width: 20px
         }
     }
 
@@ -103,7 +120,7 @@ $unliquidated_total = [];
     }
 </style>
 <div class="ors-view">
-    <div style="min-width: 100%; padding: 5px; background-color: #fff; min-height: 500px; margin-left: auto;  margin-right: auto; margin-top: 5px; overflow: auto;">
+    <div style="min-width: 100%; padding: 5px; background-color: #fff; min-height: 500px; margin-left: auto;  margin-right: auto; margin-top: 5px; overflow: hidden;">
         <table style="width: 100%;">
             <tr>
                 <td style="height: 20px;"></td>
@@ -113,18 +130,13 @@ $unliquidated_total = [];
                     FAR No. 1-C
                 </td>
             </tr>
-            <tr>
-                <td style="height: 20px;"></td>
-            </tr>
         </table>
 
         <table style="width: 100%;">
             <tr>
-                <td style="height: 20px;"></td>
-            </tr>
-            <tr>
                 <td style="font-weight: bold; text-align: center;">
-                    STATEMENT OF OBLIGATIONS, DISBURSEMENTS, LIQUIDATIONS AND BALANCES for INTER-AGENCY FUND TRANSFERS
+                    STATEMENT OF OBLIGATIONS, DISBURSEMENTS, LIQUIDATIONS AND BALANCES for INTER-AGENCY FUND TRANSFERS<br>
+                    As at the Quarter Ending <input type="text" name="text" class="textfield" placeholder="Enter Date here" value="June 30, 2019" style="border: none; width: 20%; padding-left: 1px;">
                 </td>
             </tr>
             <tr>
@@ -141,16 +153,18 @@ $unliquidated_total = [];
                     </tr>
                     <tr>
                         <td>Agency/Entity</td>
-                        <td style="border-bottom: solid .8px; font-weight: bold;">: Office of the Secretary</td>
+                        <td style="border-bottom: solid .8px; font-weight: bold;">: 
+                            <input type="text" name="text" class="textfield" placeholder="Enter Organization Code" value="Office of the Secretary" style="border: none; width: 75%; padding-left: 0px;">
+                        </td>
                     </tr>
                     <tr>
                         <td>Operating Unit</td>
-                        <td style="border-bottom: solid .8px; font-weight: bold;">: <?= $model->operating_unit  ?></td>
+                        <td style="border-bottom: solid .8px; font-weight: bold;">: <?= $model->operatingunit->description  ?></td>
                     </tr>
                     <tr>
                         <td>Organization Code</td>
                         <td style="border-bottom: solid .8px; font-weight: bold;">: 
-                            <input type="text" name="text" class="textfield" placeholder="Enter Organization Code" style="border: none; width: 90%; padding-left: 1px;">
+                            <input type="text" name="text" class="textfield" placeholder="Enter Organization Code" style="border: none; width: 90%; padding-left: 0px;">
                         </td>
                     </tr>
                     <tr>
@@ -161,20 +175,26 @@ $unliquidated_total = [];
             </div>
             <div class="col-lg-6">
                 <table style="font-size: 11px; margin-right: 5px; float: right;">
+                     <!-- <tr>
+                        <td style="padding-right: 3px; font-size: 16px;">
+                            <?= $model->appropriation_type == 'Prior Year' ? '<span class = "fa fa-check-square"></span>' : '<span class = "fa fa-square"></span>' ?>  
+                        </td>
+                        <td>Prior Year Obligation</td>
+                    </tr> -->
                     <tr>
-                        <td style="padding-right: 5px; font-size: 20px;">
+                        <td style="padding-right: 3px; font-size: 16px;">
                             <?= $model->appropriation_type == 'Current' ? '<span class = "fa fa-check-square"></span>' : '<span class = "fa fa-square"></span>' ?>  
                         </td>
                         <td>Current Year Appropriation</td>
                     </tr>
                     <tr>
-                        <td style="padding-right: 5px; font-size: 20px;">
+                        <td style="padding-right: 3px; font-size: 16px;">
                             <?= $model->appropriation_type == 'Supplemental' ? '<span class = "fa fa-check-square"></span>' : '<span class = "fa fa-square"></span>' ?> 
                         </td>
-                        <td>Supplementant Appropriation</td>
+                        <td>Supplemental Appropriation</td>
                     </tr>
                     <tr>
-                        <td style="padding-right: 5px; font-size: 20px;">
+                        <td style="padding-right: 3px; font-size: 16px;">
                             <?= $model->appropriation_type == 'Continuing' ? '<span class = "fa fa-check-square"></span>' : '<span class = "fa fa-square"></span>' ?>   
                         </td>
                         <td>Continuing Appropriation</td>
@@ -186,15 +206,15 @@ $unliquidated_total = [];
 
         <table style="width: 100%; border: solid 1px;" class="report-table">
             <tr>
-                <th rowspan="3" class="report-th" style="vertical-align: middle;">Implementing Agencies and Projects</th>
-                <th colspan="7" class="report-th">Obligations</th>
-                <th colspan="5" class="report-th">Disbursements (Funds Transfered to)</th>
-                <th colspan="5" class="report-th">Liquidations</th>
-                <th rowspan="3" class="report-th">Unpaid Obligations</th>
-                <th rowspan="3" class="report-th">Unliquidated<br>Fund Transfers</th>
+                <th rowspan="3" class="report-th" id="project_title" style="vertical-align: middle; border: solid 1px;">Implementing Agencies and Projects</th>
+                <th colspan="7" class="report-th" style="border: solid 1px;">Obligations</th>
+                <th colspan="5" class="report-th" style="border: solid 1px;">Disbursements</th>
+                <th colspan="5" class="report-th" style="border: solid 1px;">Liquidations</th>
+                <th rowspan="3" class="report-th" style="border: solid 1px;">Unpaid Obligations</th>
+                <th rowspan="3" class="report-th" style="border: solid 1px;">Unliquidated<br>Fund Transfers</th>
             </tr>
             <tr>
-                <th colspan="2" class="report-th2" style="width: 15%;">
+                <th colspan="2" class="report-th2" style="width: 15%; border: solid 1px;">
                     Obligation Request and Status
                 </th>
                 <th rowspan="2" class="report-th2">1st Quarter</th>
@@ -241,8 +261,9 @@ $unliquidated_total = [];
             </tr>
 
             <?php foreach ($data as $key => $value): ?>
+               <?php if($model->getCheckdepartment($value->department, $model->ors_year, $model->appropriation_type, $model->fund_cluster) != 0) : ?>
                 <tr>
-                    <td class="report-td2" style="text-align: left;"><?= $value->department ?></td>
+                    <td class="report-td2" style="text-align: left; padding-left: 3px;"><?= $value->department ?></td>
                     <td class="report-td2"></td>
                     <td class="report-td2"></td>
                     <td class="report-td2"></td>
@@ -263,7 +284,8 @@ $unliquidated_total = [];
                     <td class="report-td2"></td>
                     <td class="report-td2"></td>
                 </tr>
-                <?php foreach ($value->getAgency($value->department) as $key => $val) : ?>
+                <?php foreach ($value->getAgency($value->department, $model->operating_unit) as $key => $val) : ?>
+                     <?php if($model->getCheckagency($val->agency, $model->ors_year, $model->appropriation_type, $model->fund_cluster) != 0) : ?>
                     <tr>
                         <td class="report-td2" style = "text-indent: 10px; text-align: left;"><?= $val->agency; ?></td>
                         <td class="report-td2"></td>
@@ -309,15 +331,36 @@ $unliquidated_total = [];
                             <td class="report-td2"></td>
                             <td class="report-td2"></td>
                         </tr>
-                        <tr>
-                            <td colspan="20" style="height: 7px;"></td>
+                        <tr style="height: 6px;">
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
+                            <td class="report-td2"></td>
                         </tr>
                         <?php foreach ($value->getProjects($value->department, $val->agency, $data->operating_office) as $key => $project) : ?>
+
+                            <?php if($model->getCheckproject($project->id, $model->appropriation_type, $model->fund_cluster) != null) : ?>
                             <tr>
                                 <td class="report-td2" style = "text-align: center;"><?= $project->project_title; ?></td>
                                 <td class="report-td2">
                                     <?php 
-                                        foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
                                         {
                                             echo $ors->ors_no.'<br>';
                                         }
@@ -325,183 +368,372 @@ $unliquidated_total = [];
                                 </td>
                                 <td class="report-td2">
                                     <?php 
-                                        foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
                                         {
                                             echo $ors->ors_date.'<br>';
                                         }
                                     ?>
                                 </td>
                                 <td class="report-td2">
-                                    <?php
-                                        foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                            {
-                                                echo '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
-
-                                                array_push($obligate_first, $value->getObligation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                            }
-                                    ?>
-                                </td>
-                                <td class="report-td2">
-                                    <?php
-                                        foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
                                         {
-                                            echo $value->getObligation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>' : '';
+                                            echo $value->getObligation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->fund_cluster), 2).'</div>' : '-';
 
-                                            array_push($obligate_second, $project->getObligation($ors->ors_no, $value->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
+                                            array_push($obligate_first, $value->getObligation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->fund_cluster));
                                         }
-                                     ?>
+                                    ?>  
                                 </td>
                                 <td class="report-td2">
-                                    <?php
-                                        foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
                                         {
-                                            echo '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 3, 'Current', $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                            echo $value->getObligation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->fund_cluster), 2).'</div>' : '-';
 
-                                            array_push($obligate_third, $value->getObligation($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
+                                            array_push($obligate_second, $value->getObligation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->fund_cluster));
                                         }
                                     ?>
                                 </td>
                                 <td class="report-td2">
-                                    <?php
-                                        foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
                                         {
-                                            echo '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                            echo $value->getObligation($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->fund_cluster), 2).'</div>' : '-';
 
-                                            array_push($obligate_fourth, $value->getObligation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
+                                            array_push($obligate_third, $value->getObligation($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->fund_cluster));
                                         }
-                                    ?>                        
+                                    ?> 
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getObligation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getObligation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->fund_cluster), 2).'</div>' : '-';
 
-                                        array_push($obligate_total, $value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($obligate_fourth, $value->getObligation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->fund_cluster));
+                                        }
+                                    ?>              
+                                </td>
+                                <td class="report-td2" style="text-align: right;">
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->fund_cluster), 2).'</div>' : '-';
+
+                                            array_push($obligate_total, $value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->fund_cluster));
+                                        }
+                                    ?>                
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getDisbursement($ors->ors_no, $project->id, 1, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 1, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($disbursed_first, $value->getDisbursement($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($disbursed_first, $value->getDisbursement($ors->ors_no, $project->id, 1, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>         
                                 </td>
                                 <td class="report-td2">
-                                <?php 
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getDisbursement($ors->ors_no, $project->id, 2, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 2, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($disbursed_second, $value->getDisbursement($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($disbursed_second, $value->getDisbursement($ors->ors_no, $project->id, 2, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>               
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getDisbursement($ors->ors_no, $project->id, 3, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 3, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($disbursed_third, $value->getDisbursement($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($disbursed_third, $value->getDisbursement($ors->ors_no, $project->id, 3, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?> 
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getDisbursement($ors->ors_no, $project->id, 4, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 4, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($disbursed_fourth, $value->getDisbursement($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($disbursed_fourth, $value->getDisbursement($ors->ors_no, $project->id, 4, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?> 
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getTotaldisbursement($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($disbursed_total, $value->getTotaldisbursement($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($disbursed_total, $value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>  
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getLiquidation($ors->ors_no, $project->id, 1, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 1, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($liquidate_first, $value->getLiquidation($ors->ors_no, $project->id, 1, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($liquidate_first, $value->getLiquidation($ors->ors_no, $project->id, 1, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>                
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getLiquidation($ors->ors_no, $project->id, 2, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 2, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($liquidate_second, $value->getLiquidation($ors->ors_no, $project->id, 2, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($liquidate_second, $value->getLiquidation($ors->ors_no, $project->id, 2, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>           
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getLiquidation($ors->ors_no, $project->id, 3, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 3, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($liquidate_third, $value->getLiquidation($ors->ors_no, $project->id, 3, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($liquidate_third, $value->getLiquidation($ors->ors_no, $project->id, 3, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>         
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getLiquidation($ors->ors_no, $project->id, 4, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 4, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
 
-                                        array_push($liquidate_fourth, $value->getLiquidation($ors->ors_no, $project->id, 4, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                                            array_push($liquidate_fourth, $value->getLiquidation($ors->ors_no, $project->id, 4, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>              
+                                </td>
+                                <td class="report-td2" style="text-align: right;">
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo $value->getLiquidation($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year) != 0.00 ? '<div style="text-align: center;">'.number_format($value->getLiquidation($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year), 2).'</div>' : '-';
+
+                                            array_push($liquidate_total, $value->getLiquidation($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year));
+                                        }
+                                    ?>
+                                </td>
+                                <td class="report-td2" style="text-align: right;">
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo number_format($value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) - $value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year), 2);
+                                            echo '<br>';
+
+                                            array_push($unpaid_total, ($value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->fund_cluster) - $value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year)));
+                                        }
+                                    ?>        
+                                </td>
+                                <td class="report-td2" style="text-align: right;">
+                                    <?php 
+                                        foreach ($value->getOrs($project->id, $model->appropriation_type, $model->ors_year) as $key => $ors) 
+                                        {
+                                            echo number_format($value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year) - $value->getLiquidation($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year), 2);
+
+                                            array_push($unliquidated_total, ($value->getDisbursement($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year) - $value->getLiquidation($ors->ors_no, $project->id, 5, $value->operating_unit, $model->ors_year)));
+                                        }
+                                    ?>               
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="report-td4" style="text-align: center; font-style: italic;">PS</td>
+                                <td class="report-td4"></td>
+                                <td class="report-td4"></td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 1, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 1, $model->ors_year), 2) : ''; ?>
+                                </td>
+                            
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 2, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 2, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 3, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 3, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 4, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 4, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceobtotal($value->operating_unit, $project->id, '01', $model->appropriation_type, $model->ors_year) != 0 ? number_format($model->getExpenceobtotal($value->operating_unit, $project->id, '01', $model->appropriation_type, $model->ors_year), 2) : ''; ?>
+                                </td>
+                            
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '01', 1, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '01', 1, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '01', 2, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '01', 2, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '01', 3, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '01', 3, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '01', 4, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '01', 4, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDistotal($value->operating_unit, $project->id, '01', $model->year) != 0 ? number_format($model->getExpenceDistotal($value->operating_unit, $project->id, '01', $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '01', 1, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '01', 1, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '01', 2, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '01', 2, $model->ors_year) ,2) : ''; ?>
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format($value->getTotalliquidation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster), 2).'</div>';
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '01', 3, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '01', 3, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '01', 4, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '01', 4, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliqtotal($value->operating_unit, $project->id, '01', $model->ors_year) != 0 ? number_format($model->getExpenceliqtotal($value->operating_unit, $project->id, '01', $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                            </tr>
 
-                                        array_push($liquidate_total, $value->getTotalliquidation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster));
-                                    }
-                                ?>                        
+                            <tr>
+                                <td class="report-td2" style="text-align: center; font-style: italic;">MOOE</td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 1, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 1, $model->ors_year), 2) : ''; ?>
+                                </td>
+                            
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 2, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 2, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 3, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 3, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 4, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '02', $model->appropriation_type, 4, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceobtotal($value->operating_unit, $project->id, '02', $model->appropriation_type, $model->ors_year) != 0 ? number_format($model->getExpenceobtotal($value->operating_unit, $project->id, '02', $model->appropriation_type, $model->ors_year), 2) : ''; ?>
+                                </td>
+                            
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '02', 1, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '02', 1, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '02', 2, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '01', 2, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '02', 3, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '02', 3, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '02', 4, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '02', 4, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDistotal($value->operating_unit, $project->id, '02', $model->year) != 0 ? number_format($model->getExpenceDistotal($value->operating_unit, $project->id, '02', $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '02', 1, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '02', 1, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '02', 2, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '02', 2, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '02', 3, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '02', 3, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '02', 4, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '02', 4, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliqtotal($value->operating_unit, $project->id, '02', $model->ors_year) != 0 ? number_format($model->getExpenceliqtotal($value->operating_unit, $project->id, '02', $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                            </tr>
+                             
+                            <tr>
+                                <td class="report-td4" style="text-align: center; font-style: italic;">CO</td>
+                                <td class="report-td4"></td>
+                                <td class="report-td4"></td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 1, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '01', $model->appropriation_type, 1, $model->ors_year), 2) : ''; ?>
+                                </td>
+                            
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 2, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 2, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 3, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 3, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 4, $model->ors_year) != 0 ? number_format($model->getExpenceob($value->operating_unit, $project->id, '06', $model->appropriation_type, 4, $model->ors_year), 2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceobtotal($value->operating_unit, $project->id, '06', $model->appropriation_type, $model->ors_year) != 0 ? number_format($model->getExpenceobtotal($value->operating_unit, $project->id, '06', $model->appropriation_type, $model->ors_year), 2) : ''; ?>
+                                </td>
+                            
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '06', 1, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '06', 1, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '06', 2, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '06', 2, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '06', 3, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '06', 3, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDis($value->operating_unit, $project->id, '06', 4, $model->year) != 0 ? number_format($model->getExpenceDis($value->operating_unit, $project->id, '06', 4, $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceDistotal($value->operating_unit, $project->id, '06', $model->year) != 0 ? number_format($model->getExpenceDistotal($value->operating_unit, $project->id, '06', $model->year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '06', 1, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '06', 1, $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '06', 2, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '06', 2, $model->ors_year) ,2) : ''; ?>
                                 </td>
                                 <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format(($value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster) - ($value->getTotaldisbursement($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster))), 2).'</div>';
-
-                                        array_push($unpaid_total, ($value->getTotalobligation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster) - ($value->getTotaldisbursement($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster))));
-
-                                    }
-                                ?>                        
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '06', 3, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '06', 3, $model->ors_year) ,2) : ''; ?>
                                 </td>
-                                <td class="report-td2">
-                                <?php
-                                    foreach ($value->getOrs($project->id, $model->year) as $key => $ors) 
-                                    {
-                                        echo '<div style="text-align: center;">'.number_format(($value->getTotaldisbursement($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster) - ($value->getTotalliquidation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster))), 2).'</div>';
-
-                                        array_push($unliquidated_total, ($value->getTotaldisbursement($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster) - ($value->getTotalliquidation($ors->ors_no, $project->id, $model->appropriation_type, $value->operating_unit, $model->year, $model->fund_cluster))));
-                                    }
-                                ?>                        
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliq($value->operating_unit, $project->id, '06', 4, $model->ors_year) != 0 ? number_format($model->getExpenceliq($value->operating_unit, $project->id, '06', 4, $model->ors_year) ,2) : ''; ?>
                                 </td>
+                                <td class="report-td4">
+                                    <?= $model->getExpenceliqtotal($value->operating_unit, $project->id, '06', $model->ors_year) != 0 ? number_format($model->getExpenceliqtotal($value->operating_unit, $project->id, '06', $model->ors_year) ,2) : ''; ?>
+                                </td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                            </tr>
+                                
+                            <?php endif ?>
+                            <tr style="height: 5px;">
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
+                                <td class="report-td2"></td>
                             </tr>
                         <?php endforeach ?>
                         <tr style="height: 10px;">
@@ -527,10 +759,10 @@ $unliquidated_total = [];
                             <td class="report-td2"></td>
                         </tr>
                     <?php endforeach ?>
+                <?php endif ?>
                 <?php endforeach ?>
+            <?php endif ?>
             <?php endforeach ?>
-
-            
             <tr style="text-align: center;">
                 <td class="report-td1">GRAND TOTAL</td>
                 <td class="report-td1"></td>
@@ -593,26 +825,34 @@ $unliquidated_total = [];
             <tr>
                 <th style="width: 25%; height: 25px; vertical-align: top;">Certified Correct:</th>
                 <th style="width: 25%; height: 25px; vertical-align: top;">Certified Correct:</th>
-                <th style="width: 25%; height: 25px; vertical-align: top;">Recommending Approval:</th>
                 <th style="width: 25%; height: 25px; vertical-align: top;">Approved By:</th>
+                <!-- <th style="width: 25%; height: 25px; vertical-align: top;">Approved By:</th> -->
             </tr>
             <tr>
                 <td><input type="text" name="text" class="textfield" placeholder="Enter name here"></td>
                 <td><input type="text" name="text" class="textfield" placeholder="Enter name here"></td>
                 <td><input type="text" name="text" class="textfield" placeholder="Enter name here"></td>
-                <td><input type="text" name="text" class="textfield" placeholder="Enter name here"></td>
+                <!-- <td><input type="text" name="text" class="textfield" placeholder="Enter name here"></td> -->
             </tr>
             <tr>
-                <td style="vertical-align: top;">Budget Officer</td>
-                <td style="vertical-align: top;">Chief Accountant</td>
-                <td style="vertical-align: top;">Director of Financial Management (FMS)</td>
-                <td style="vertical-align: top;">Agency/Entity Head or Authorized Representative</td>
+                <td style="vertical-align: top;">
+                    <input type="text" name="text" class="textfield" placeholder="Enter Position here" style="border: none; width: 90%; padding-left: 1px;">
+                </td>
+                <td style="vertical-align: top;">
+                    <input type="text" name="text" class="textfield" placeholder="Enter Position here" style="border: none; width: 90%; padding-left: 1px;">
+                </td>
+                <td style="vertical-align: top;">
+                    <input type="text" name="text" class="textfield" placeholder="Enter Position here" style="border: none; width: 90%; padding-left: 1px;">            
+                </td>
+                <!-- <td style="vertical-align: top;">
+                    <input type="text" name="text" class="textfield" placeholder="Enter Position here" style="border: none; width: 90%; padding-left: 1px;">            
+                </td> -->
             </tr>
             <tr>
                 <td>Date:_____________</td>
                 <td>Date:_____________</td>
                 <td>Date:_____________</td>
-                <td>Date:_____________</td>
+                <!-- <td>Date:_____________</td> -->
             </tr>
         </table>
     </div>

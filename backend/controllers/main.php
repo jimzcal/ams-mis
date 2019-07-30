@@ -67,6 +67,10 @@ AppAsset::register($this);
                 <?= Html::a(Html::img('@web/images/operating_unit.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Operating Unit']), ["/operating-unit/index"]) ?>
                 <?php endif ?>
 
+                <?php if (Yii::$app->user->identity->region != 'Central Office') : ?>
+                <?= Html::a(Html::img('@web/images/operating_unit.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Implementing Agency']), ["/national-agency/index"]) ?>
+                <?php endif ?>
+
                 <?php if (Yii::$app->user->can('URS Users')) : ?>
                 <?= Html::a(Html::img('@web/images/urs.png', ['alt'=>'ams-icon', 'class' => 'icon-image', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Fund Transfer']), ["/projects/index"]) ?>
                 <?php endif ?>

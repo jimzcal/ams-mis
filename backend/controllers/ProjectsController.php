@@ -135,6 +135,8 @@ class ProjectsController extends Controller
     {
         $this->findModel($id)->delete();
 
+        JournalEntry::deleteAll(['project_id' => $id]);
+
         return $this->redirect(['index']);
     }
 
@@ -218,7 +220,7 @@ class ProjectsController extends Controller
 
             if($model->operating_unit == 'All')
             {
-                $dataProvider = OperatingUnit::find()->all();
+                $dataProvider = OperatingUnit::find()->where(['status' => 'Active'])->all();
 
                 return $this->render('consol_report', [
                     'dataProvider' => $dataProvider,

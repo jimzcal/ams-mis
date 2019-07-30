@@ -2,64 +2,69 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\ActiveForm;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\SubLedgerAccountsSearch */
+/* @var $searchModel backend\models\FundTransferreceiptSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Subsidiary Ledger Accounts';
+$this->title = 'Fund Transfer Receipts';
 // $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="sub-ledger-accounts-index">
-    <div class="main-panel">
-        <div style="font-size: 32px; color: #999999">
-            <i class="fa fa-book"></i> Chart of SL Accounts
-        </div>
-        <br>
-        <div style="width: 100%; border-bottom: solid 1px #cccccc">
-            <div class="topnav" style="width: 380px">
-                <?= Html::a("Major Accounts", ["/major-accounts/index"], ['class' => 'topnav-menu-first']) ?>
-                <?= Html::a("SL Accounts", ["/sub-ledger-accounts/index"], ['class' => 'topnav-menu']) ?>
-                <span class = 'topnav-menu-last' data-toggle="modal" data-target="#newModal"> New SL Account </span>
-            </div>
-        </div>
-        <div class="right-panel-search">
-            <div class="row">
-                <div class="col-md-12">
-                    <?= $this->render('_search', ['model' => $searchModel]); ?>
+<div class="fund-transferreceipt-index">
+
+    <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
+        <h3>FUND TRANSFER RECEIPT</h3>
+    </div>
+    <p>
+        <?php if(Yii::$app->user->can('urs_budget')) :  ?>
+            <span class = 'btn btn-success' data-toggle="modal" data-target="#newModal"> Fund Receipt/Adjustment </span>
+
+        <?php else :?>
+            <span class = 'btn btn-success' data-toggle="modal" data-target="#newModal" disabled> Fund Receipt/Adjustment </span>
+        <?php endif ?>
+    </p>
+    <!-- <br> -->
+    <div class="row">
+        <div class="col-md-3">
+            <div style="width: 100%; min-height: 400px; padding: 10px; background-color: #0099cc">
+                <div style="background-color: #33ccff; width: 100%; padding: 12px; color: #fff; border: solid 1px #00ace6;">
+                    <span class="fa fa-search" style="color: green; text-shadow: 2px 2px 2px #fff; font-size: 20px;"></span> SEARCH FUND TRANSFER
                 </div>
+                <br>
+                <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
             </div>
         </div>
-        <br>
+        <div class="col-md-9">
+            <div style="width: 100%; background-color: #fff; padding: 10px;">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    //'filterModel' => $searchModel,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-        <div style="overflow-y: scroll; max-height: 500px;">
-            <table class="table table-bordered table-condensed table-striped" id="row">
-                <tr>
-                    <th>No.</th>
-                    <th>Mother Account</th>
-                    <th>Account Code</th>
-                    <th>Account Title</th>
-                    <th>Status</th>
-                </tr>
-                <?php foreach ($dataProvider->getModels() as $key => $value) : ?>
-                    <tr data-id = "<?= $value->id ?>">
-                        <td><?= $key + 1; ?></td>
-                        <td><?= $value->mother_account.' - '.$value->getAccount($value->mother_account) ?></td>
-                        <td><?= $value->account_code ?></td>
-                        <td><?= $value->account_title ?></td>
-                        <td><?= $value->status ?></td>
-                    </tr>
-                <?php endforeach ?>
-                <?php if($dataProvider->getModels() == null) : ?>
-                        <tr style="background-color: #d8d8d8">
-                            <td colspan="4" style="font-style: italic;">No Records...</td>
-                        </tr>
-                    <?php endif ?>
-            </table>
+                        //'id',
+                        //'date_entry',
+                        //'operating_unit',
+                        //'project_id',
+                        'date_fundreceipt',
+                        'reference',
+                        'department',
+                        'agency',
+                        //'operating_office',
+                        //'amount',
+                        [
+                            'attribute' => 'amount',
+                            'value' => function($data)
+                            {
+                                return number_format($data->amount, 2);
+                            }
+                        ],
+
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]); ?>
+            </div>
         </div>
-
     </div>
 </div>
 
@@ -68,38 +73,16 @@ $this->title = 'Subsidiary Ledger Accounts';
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-         <h4 class="modal-title">New Entry</h4>
+         <h4 class="modal-title">New Fund Transfer Receipt</h4>
       </div>
       <div class="modal-body">
             <div class="news-content-modal">
                 <?= $this->render('_form', [
                     'model' => $model,
+                    'project' => $project,
                 ]) ?>
             </div>
       </div>
     </div>
     </div>
 </div>
-
-<!-- <script>
-    $('tbody td').css('cursor', 'pointer');
-        // $('tbody th').css('background-color', '#f5f5f0');
-        $('tbody td').click(function (e) {
-            var id = $(this).closest('tr').data('id');
-            if (e.target == this)
-                location.href = '" . Url::to(['disbursement/update']) . "&id=' + id;
-        });
-    ");
-</script> -->
-
-<?php
-$this->registerJs("
-    $('tbody').css('font-size', '12px');
-    $('tbody td').css('cursor', 'pointer');
-    $('tbody th').css('text-align', 'center');
-    $('tbody td').click(function (e) {
-        var id = $(this).closest('tr').data('id');
-        if (e.target == this)
-            location.href = '" . Url::to(['sub-ledger-accounts/update']) . "?id=' + id;
-    });
-"); ?>

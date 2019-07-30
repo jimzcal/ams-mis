@@ -8,14 +8,26 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Projects';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="projects-index">
+<style type="text/css">
+    .table{
+        font-size: 11px;
+    }
+
+    .next a{
+        display: none !important;
+    }
+
+    .disabled{
+        display: none !important;
+</style>
+<div class="projects-index" style="z-index: 400px;">
 
     <div style="color: #fff; border-bottom: solid 2px #fff; text-align: right; padding-top: 13px;">
-        <h3>PROJECTS</h3>
+        <h3>FUND TRANSFER | FAR 1-C PROJECTS</h3>
     </div>
-    <p>
+    <p style="z-index: 500;">
         <span class = 'btn btn-success' data-toggle="modal" data-target="#newModal"> New Project </span>
         <?= Html::a('Reports', ['report'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -44,7 +56,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'operating_unit',
                         'department',
                         'agency',
-                        'operating_unit',
+                        //'operating_office',
+                        [
+                            'attribute' => 'operating_office',
+                            'label' => 'OU',
+                            'value' => 'operating_office',
+                        ],
                         //'focal_person',
                         //'status',
 

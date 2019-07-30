@@ -8,6 +8,7 @@ use backend\models\Far6ProjectsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\OperatingUnit;
 
 /**
  * Far6ProjectsController implements the CRUD actions for Far6Projects model.

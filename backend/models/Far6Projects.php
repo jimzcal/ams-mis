@@ -76,6 +76,15 @@ class Far6Projects extends \yii\db\ActiveRecord
         return $data;
     }
 
+    public function getProject($operating_unit)
+    {
+        $data = Far6Projects::find()->where(['operating_unit' => $operating_unit])
+                                    ->andWhere(['status' => 'Active'])
+                                    ->all();
+
+        return $data;
+    }
+
     public function getBudget($project_id)
     {
         $budget = array_sum(ArrayHelper::getColumn(FundTransferreceipt::find()
@@ -139,6 +148,54 @@ class Far6Projects extends \yii\db\ActiveRecord
         }
     }
 
+    public function getUtilization2($project_id, $expense_class, $quarter)
+    {
+        if($quarter == 1)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(RegistryBudgetutilization::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-01-01'), date('Y-03-31')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 2)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(RegistryBudgetutilization::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-04-01'), date('Y-06-30')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 3)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(RegistryBudgetutilization::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-07-01'), date('Y-09-30')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 4)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(RegistryBudgetutilization::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-10-01'), date('Y-12-31')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 5)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(RegistryBudgetutilization::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-01-01'), date('Y-12-31')])
+                            ->all(), 'amount'));
+        }
+    }
+
     public function getDisbursement($project_id, $quarter)
     {
         if($quarter == 1)
@@ -182,6 +239,54 @@ class Far6Projects extends \yii\db\ActiveRecord
         }
     }
 
+    public function getDisbursement2($project_id, $expense_class, $quarter)
+    {
+        if($quarter == 1)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(BursDisbursement::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-01-01'), date('Y-03-31')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 2)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(BursDisbursement::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-04-01'), date('Y-06-30')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 3)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(BursDisbursement::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-07-01'), date('Y-09-30')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 4)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(BursDisbursement::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-10-01'), date('Y-12-31')])
+                            ->all(), 'amount'));
+        }
+
+        if($quarter == 5)
+        {
+            return $data = array_sum(ArrayHelper::getColumn(BursDisbursement::find()
+                            ->where(['project_id' => $project_id])
+                            ->andWhere(['burs_class' => $expense_class])
+                            ->andWhere(['between', 'burs_date', date('Y-01-01'), date('Y-12-31')])
+                            ->all(), 'amount'));
+        }
+    }
+
     public function getCheckproject($project_id, $appropriation_type)
     {
         $data = RegistryBudgetutilization::find()->where(['project_id' => $project_id])
@@ -207,6 +312,11 @@ class Far6Projects extends \yii\db\ActiveRecord
         }
 
         return $check_data;
+    }
+
+    public function getCheckdata($operating_unit)
+    {
+        return $data = Far6Projects::find()->where(['operating_unit' => $operating_unit])->one();
     }
 
     public function getCheckdepartment($department, $appropriation_type)

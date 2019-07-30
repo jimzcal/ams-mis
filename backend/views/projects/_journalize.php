@@ -30,40 +30,53 @@ use yii\widgets\DetailView;
                     <?= $model->department ?> | <?= $model->agency ?> | <?= $model->operating_office ?>
                 </div><br>
 
-                <table style="width: 30%; opacity: .9;">
-                    <tr>
-                        <td style="width: 40%; color: #fff; vertical-align: middle;">Fiscal Year</td>
-                        <td>
-                            <?= $form->field($new_model, 'year')->textInput(['value' => date('Y')])->label(false) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: #fff; vertical-align: middle;">Quarter</td>
-                        <td>
-                            <?= $form->field($new_model, 'quarter')->dropdownList(['1' => 'First', '2' => 'Second', '3' => 'Third', '4' => 'Fourth'])->label(false) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: #fff; vertical-align: middle;">
-                            Fund Cluster
-                        </td>
-                        <td>
-                            <?= $form->field($new_model, 'fund_cluster')->dropdownList(['01' => '01 - Regular Agency Fund', '02' => '02 - Foreign Assisted Project Fund', '03' => '03 - Special Fund (Loacally Funded)', '04' => '04 - Special Account (Foreign Assisted)'])->label(false) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: #fff; vertical-align: middle;">
-                            Appropriation Type
-                        </td>
-                        <td>
-                            <?= $form->field($new_model, 'appropriation_type')->dropdownList(['Current' => 'Current Year Appropriation', 'Supplemental' => 'Supplemental', 'Supplemental Appropriation', 'Continuing' => 'Continuing Appropriation'])->label(false) ?>
-                        </td>
-                    </tr>
-                </table>
+                <div class="row">
+                    <div class="col-md-4">
+                        <table style="width: 90%; opacity: .9;">
+                            <tr>
+                                <td style="width: 40%; color: #fff; vertical-align: middle;">Fiscal Year</td>
+                                <td>
+                                    <?= $form->field($new_model, 'year')->textInput(['value' => date('Y')])->label(false) ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: #fff; vertical-align: middle;">Quarter</td>
+                                <td>
+                                    <?= $form->field($new_model, 'quarter')->dropdownList(['1' => 'First', '2' => 'Second', '3' => 'Third', '4' => 'Fourth'])->label(false) ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: #fff; vertical-align: middle;">
+                                    Fund Cluster
+                                </td>
+                                <td>
+                                    <?= $form->field($new_model, 'fund_cluster')->dropdownList(['01' => '01 - Regular Agency Fund', '02' => '02 - Foreign Assisted Project Fund', '03' => '03 - Special Fund (Loacally Funded)', '04' => '04 - Special Account (Foreign Assisted)'])->label(false) ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: #fff; vertical-align: middle;">
+                                    Appropriation Type
+                                </td>
+                                <td>
+                                    <?= $form->field($new_model, 'appropriation_type')->dropdownList(['Prior Year' => 'Prior Year Appropriation', 'Current' => 'Current Year Appropriation', 'Supplemental Appropriation', 'Continuing' => 'Continuing Appropriation'])->label(false) ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-8">
+                        <div style="border-radius: padding: 20px; text-align: justify; font-size: 12px; margin-left: auto; margin-right: auto; color: #fff;">
+                            <p>Note:</p><br>
+                            <p>Please follow the latest format of ORS No. Otherwise, the system will not save your entry and will notify you with an error message. The ORS No. should follow the following format: Expense Class-Funding_Source-Year-Month-Series(e.g., 01-0101020-2019-04-0001).</p><br>
+                            <p>
+                                In case your current ORS Number is not of the latest format, just provide some missing parts of the ORS Number without omitting your current ORS Number. 
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 
                 <table style="width: 100%" id="tbl2">
                     <tr>
-                        <td colspan="4" style="text-align: right;">
+                        <td colspan="5" style="text-align: right;">
                             <button style="font-size: 13px; margin: 5px;" class="btn btn-default btn-right" type="button" onclick="myFunction()" >
                             <i class="glyphicon glyphicon-plus"></i> Add Field
                         </button>
@@ -78,7 +91,7 @@ use yii\widgets\DetailView;
                     </tr>
                     <tr id="tbl-tr">
                         <td style="padding-right: 3px;">
-                            <?= $form->field($new_model, 'ors_no[]')->textInput(['maxlength' => true])->label(false) ?>
+                            <?= $form->field($new_model, 'ors_no[]')->textInput(['maxlength' => true, 'placeholder' => 'ex. 01-10101020-2019-04-00001'])->label(false) ?>
                         </td>
                         <td style="padding-right: 3px;">
                             <?= $form->field($new_model, 'ors_date[]')->widget(DatePicker::classname(), [

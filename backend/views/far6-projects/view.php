@@ -24,11 +24,15 @@ $this->title = $model->project_title;
                 </div><br>
                 <?= Html::a('FUND TRANSFER RECEIPT', ['fund-transferreceipt/index', 'project_id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
                 <br>
+                <?= Html::a('FUND REMITTANCE', ['fund-remittance/index', 'project_id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
+                <br>
                 <?= Html::a('BUDGET UTILIZATIONS', ['registry-budgetutilization/index', 'project_id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
                 <br>
                 <?= Html::a('DISBURSEMENTS', ['burs-disbursement/index', 'project_id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
                 <br>
                 <?= Html::a('LIQUIDATION', ['burs-liquidation/index', 'project_id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
+
+                <?= Html::a('DUE AND DEMANDABLES', ['due-demandables/index', 'project_id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
                 <br>
                 <?= Html::a('UPDATE', ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'style' => 'width: 100%; display: inline-block; margin-bottom: 5px;']) ?>
                 <?= Html::a('DELETE', ['delete', 'id' => $model->id], [

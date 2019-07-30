@@ -43,6 +43,15 @@ class BursDisbursementController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
+            $burs = explode('-', $model->burs_no);
+
+            $model->burs_class = $burs[0];
+            $model->funding_source = $burs[1];
+            $model->burs_year = $burs[2];
+            $model->burs_month = $burs[3];
+            $model->burs_series = $burs[4];
+            $model->operating_unit = $model->operating_unit;
+
             $model->save(false);
         }
 
@@ -118,7 +127,17 @@ class BursDisbursementController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) 
+        {
+            $burs = explode('-', $model->burs_no);
+
+            $model->burs_class = $burs[0];
+            $model->burs_year = $burs[1];
+            $model->burs_month = $burs[2];
+            $model->burs_series = $burs[3];
+
+            $model->save();
+
             return $this->redirect(['index', 'project_id' => $model->project_id]);
         }
 

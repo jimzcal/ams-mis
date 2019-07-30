@@ -8,6 +8,7 @@ use kartik\date\DatePicker;
 use backend\models\Project;
 use kartik\select2\Select2;
 use backend\models\OperatingUnit;
+use backend\models\Obligations;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Ors */
@@ -55,14 +56,26 @@ $this->title = 'Generate Report';
                 <?php endif ?>
             </td>
             <td style="padding: 1px;">
-                <?= $form->field($model, 'fund_cluster')->dropdownList(['01' => '01 - Regular Agency Fund', '02' => '02 - Foreign Assisted Project Fund', '03' => '03 - Special Fund (Loacally Funded)', '04' => '04 - Special Account (Foreign Assisted)'])->label(false) ?>
+                <?= $form->field($model, 'ors_year')->widget(Select2::classname(), [
+                        'data' => ArrayHelper::map(Obligations::find()
+                                ->groupBy(['ors_year'])
+                                ->orderBy(['ors_year' => SORT_DESC])
+                                ->all(),'ors_year', 'ors_year'),
+                        'options' => [
+                            'prompt' => 'Year of Obligation', 
+                            'multiple' => false],
+                        ])->label(false);
+                    ?>
             </td>
             <td style="padding: 1px;">
-                <?= $form->field($model, 'year')->textInput(['value' => date('Y')])->label(false) ?>
+                <?= $form->field($model, 'fund_cluster')->dropdownList(['01' => '01 - Regular Agency Fund', '02' => '02 - Foreign Assisted Project Fund', '03' => '03 - Special Fund (Loacally Funded)', '04' => '04 - Special Account (Foreign Assisted)'])->label(false) ?>
             </td>
-            <td style="padding: 1px; width: 30%;">
-                <?= $form->field($model, 'appropriation_type')->dropdownList(['Current' => 'Current', 'Supplemental' => 'Supplemental', 'Continuing' => 'Continuing'])->label(false) ?>
+            <td style="padding: 1px; width: 25%;">
+                <?= $form->field($model, 'appropriation_type')->dropdownList(['Current' => 'Current Year Appropriation', 'Supplemental' => 'Supplemental Appropriation', 'Continuing' => 'Continuing Appropriation'])->label(false) ?>
             </td>
+            <!-- <td style="padding: 1px;">
+                <?= $form->field($model, 'doc_type')->dropdownList(['Preview' => 'For Preview', 'Print' => 'For Print'])->label(false) ?>
+            </td> -->
             <td>
                 <?= Html::submitButton('Generate', ['class' => 'btn btn-success']) ?>
             </td>

@@ -37,7 +37,7 @@ class BursDisbursement extends \yii\db\ActiveRecord
             [['burs_date', 'burs_no', 'dv_no', 'dv_date', 'project_id', 'amount'], 'required'],
             [['project_id'], 'integer'],
             [['amount'], 'number'],
-            [['burs_no', 'dv_no'], 'string', 'max' => 100],
+            [['burs_no', 'dv_no', 'burs_class', 'burs_year', 'burs_month', 'burs_series'], 'string', 'max' => 100],
         ];
     }
 

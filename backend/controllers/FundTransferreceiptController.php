@@ -123,9 +123,11 @@ class FundTransferreceiptController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'project_id' => $model->project_id]);
     }
 
     /**

@@ -5,84 +5,112 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use backend\models\NationalAgency;
-use backend\models\ImplementingAgency;
+use backend\models\Obligations;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Projects */
+/* @var $model backend\models\Disbursements */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<style type="text/css">
+    table td{
+        padding-right: 3px;
+    }
+</style>
 
-<div class="projects-form">
+<div class="disbursements-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'operating_unit')->textInput(['value' => Yii::$app->user->identity->region, 'readOnly' => true])->label('Oprating Unit/Source of Fund Agency') ?>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 70%;">
+                <?= $form->field($model, 'ors_no')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map(Obligations::find()->where(['operating_unit' => Yii::$app->user->identity->region])->andWhere(['project_id' => $project_id])->groupBy(['ors_no'])->all(),'ors_no', 'ors_no'),
+                    'options' => [
+                        'prompt' => 'Select ORS No.',
+                        'multiple' => false,
+                        'onchange'=>'
+                             $.post("ors?ors_no='.'"+$(this).val(),function(data){
 
-    <?= $form->field($model, 'project_title')->textInput(['maxlength' => true]) ?>
+                                $("#disbursements-ors_date").val(data);
 
-    <label>Implementing Agency</label>
-    <div style="border: solid 1px gray; padding: 7px; border-radius: 5px;">
-
-        <?= $form->field($model, 'department')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(NationalAgency::find()
-                    ->all(),'department', 'department'),
-            'options' => [
-                'prompt' => 'Select Department', 
-                'multiple' => false,
-                'onchange'=>'
-                     $.post("agencies?department='.'"+$(this).val(),function(data){
-
-                        $("select#projects-agency").html(data);
-
-                    });'
-                ],
-            'pluginOptions' => [
-                'tags' => true,
-                'tokenSeparators' => [';'],
-            ],
-            ]);
-        ?>
-
-        <?= $form->field($model, 'agency')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(NationalAgency::find()
-                    ->all(),'agency', 'agency'),
-            'options' => [
-                'prompt' => 'Select Agency', 
-                'multiple' => false,
-                ],
-            'pluginOptions' => [
-                'tags' => true,
-                'tokenSeparators' => [';'],
-            ],
-        ]);
-        ?>
-
-        <?= $form->field($model, 'operating_office')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(NationalAgency::find()
-                        ->all(),'operating_unit', 'operating_unit'),
-                'options' => [
-                    'prompt' => 'Select Operating Unit', 
-                    'multiple' => false,
+                            });'
+                        ],
+                    'pluginOptions' => [
+                        'tags' => true,
+                        'tokenSeparators' => [';'],
                     ],
-                'pluginOptions' => [
-                    'tags' => true,
-                    'tokenSeparators' => [';'],
-                ],
-            ]);
-        ?>
-
-    </div>
-    <br>
-
-    <?= $form->field($model, 'focal_person')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status')->dropdownList(['Active' => 'Active', 'Cancelled' => 'Cancelled']) ?>
+                    ]);
+                ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'ors_date')->widget(DatePicker::classname(), [
+                    'options' => [
+                        // 'class' => 'new-textfield',
+                        'placeholder' => 'Date',
+                        // 'value' => $model->burs_date == null ? date('Y-m-d') : $model->burs_date,
+                    ],
+                    'pluginOptions' => [
+                    'autoclose' => true,
+                    'todayHighlight' => true,
+                    'format' => 'yyyy-mm-dd'
+                        ]
+                ]); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?= $form->field($model, 'dv_no')->textInput() ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'dv_date')->widget(DatePicker::classname(), [
+                    'options' => [
+                        // 'class' => 'new-textfield',
+                        'placeholder' => 'Date',
+                        'value' => $model->dv_date == null ? date('Y-m-d') : $model->dv_date,
+                    ],
+                    'pluginOptions' => [
+                    'autoclose' => true,
+                    'todayHighlight' => true,
+                    'format' => 'yyyy-mm-dd'
+                        ]
+                ]); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?= $form->field($model, 'reference')->textInput(['placeholder' => 'Reference No. (Check / LDDAP-ADA No.)'])->label('Proof of payment'); ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'reference_date')->widget(DatePicker::classname(), [
+                    'options' => [
+                        // 'class' => 'new-textfield',
+                        'placeholder' => 'Reference Date',
+                        'value' => $model->reference_date == null ? date('Y-m-d') : $model->reference_date,
+                    ],
+                    'pluginOptions' => [
+                    'autoclose' => true,
+                    'todayHighlight' => true,
+                    'format' => 'yyyy-mm-dd'
+                        ]
+                ])->label('Date Disbursed'); ?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <?= $form->field($model, 'amount')->textInput(['maxlength' => true, 'style' => 'width: 230px; font-weight: bold; text-align: right;', 'value' => $model->amount == null ? 0.00 : $model->amount]) ?>
+            </td>
+        </tr>
+    </table>
+    <?= $form->field($model, 'project_id')->hiddenInput(['value' => $project_id])->label(false) ?>
+    
+    <?= $form->field($model, 'operating_unit')->hiddenInput(['value' => Yii::$app->user->identity->region])->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+</div>
 
 </div>
